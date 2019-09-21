@@ -16,13 +16,15 @@ include_directories(
 	)
 
 add_executable(foobar
-	game.hpp
 	exception.hpp
+	game.hpp
 	main.cpp
+	player.hpp
 	)
 
 target_link_libraries(foobar
 	${SDL2_LIBRARIES}
+	SDL2_image
 	)
 
 # vim:set sw=4 ts=4 noet:

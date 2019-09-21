@@ -2,8 +2,10 @@
 #define GAME_HPP
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 #include "exception.hpp"
+#include "player.hpp"
 
 class
 Game
@@ -11,6 +13,8 @@ Game
 private:
 	SDL_Window *window = nullptr;
 	SDL_Renderer *renderer = nullptr;
+
+	Player player;
 
 public:
 	Game()
@@ -50,6 +54,8 @@ public:
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 		}
 
+		player.init(renderer);
+
 		isRunning = true;
 	}
 
@@ -78,6 +84,8 @@ public:
 	render()
 	{
 		SDL_RenderClear(renderer);
+
+		player.render();
 
 		SDL_RenderPresent(renderer);
 	}
