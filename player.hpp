@@ -4,39 +4,33 @@
 #include <SDL2/SDL_image.h>
 
 #include "exception.hpp"
+#include "texturemanager.hpp"
 
 class
 Player
 {
 private:
 	SDL_Renderer *renderer = nullptr;
-	SDL_Texture *texture = nullptr;
+	SdlTexturePtr texture;
 
 public:
 	void
 	init(SDL_Renderer *renderer_)
 	{
-		if (!texture) {
-			if (!renderer_)
-				throw Exception("Player::init: invalid argument received");
-			renderer = renderer_;
+		if (texture)
+			throw Exception("Player::init: already initialized");
 
-			SDL_Surface *surface = IMG_Load("assets/guy1idle0.png");
-			if (!surface)
-				throw Exception("SDL_Surface failed"); // TODO add path info
+		if (!renderer_)
+			throw Exception("Player::init: invalid argument received");
+		renderer = renderer_;
 
-			texture = SDL_CreateTextureFromSurface(renderer, surface);
-			if (!texture)
-				throw Exception("SDL_CreateTextureFromSurface failed"); // TODO add path info
-
-			SDL_FreeSurface(surface);
-		}
+		texture = TextureManager::makeTexture("assets/guy1idle0.png", renderer);
 	}
 
 	void
 	render()
 	{
-		SDL_RenderCopy(renderer, texture, nullptr, nullptr);
+		SDL_RenderCopy(renderer, texture.get(), nullptr, nullptr);
 	}
 
 };

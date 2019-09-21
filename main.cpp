@@ -23,7 +23,7 @@ main(int argc, const char *argv[])
 			SDL_Delay(MIN_FRAME_TIME - frameTime);
 	}
 
-	game.clean();
+	game.terminate();
 
 	return EXIT_SUCCESS;
 }

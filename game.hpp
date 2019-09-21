@@ -23,6 +23,7 @@ public:
 
 	~Game()
 	{
+		terminate();
 	}
 
 private:
@@ -90,7 +91,7 @@ public:
 		SDL_RenderPresent(renderer);
 	}
 
-	void clean()
+	void terminate()
 	{
 		if (window)
 			SDL_DestroyWindow(window);
@@ -100,7 +101,9 @@ public:
 			SDL_DestroyRenderer(renderer);
 		renderer = nullptr;
 
-		SDL_Quit();
+		if (initialized)
+			SDL_Quit();
+		initialized = false;
 	}
 
 private:
