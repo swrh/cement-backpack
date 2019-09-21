@@ -1,8 +1,6 @@
 #if !defined(PLAYER_HPP)
 #define PLAYER_HPP
 
-#include <SDL2/SDL_image.h>
-
 #include "exception.hpp"
 #include "texturemanager.hpp"
 
@@ -10,19 +8,15 @@ class
 Player
 {
 private:
-	SDL_Renderer *renderer = nullptr;
-	SdlTexturePtr texture;
+	Sdl::RendererPtr &renderer;
+	Sdl::TexturePtr texture;
 
 public:
-	void
-	init(SDL_Renderer *renderer_)
+	Player(Sdl::RendererPtr &renderer_)
+	: renderer(renderer_)
 	{
-		if (texture)
-			throw Exception("Player::init: already initialized");
-
-		if (!renderer_)
-			throw Exception("Player::init: invalid argument received");
-		renderer = renderer_;
+		if (!renderer)
+			throw Exception("Player: invalid renderer");
 
 		texture = TextureManager::makeTexture("assets/guy1idle0.png", renderer);
 	}
@@ -30,7 +24,7 @@ public:
 	void
 	render()
 	{
-		SDL_RenderCopy(renderer, texture.get(), nullptr, nullptr);
+		SDL_RenderCopy(renderer.get(), texture.get(), nullptr, nullptr);
 	}
 
 };

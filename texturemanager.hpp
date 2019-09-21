@@ -4,24 +4,25 @@
 #include <memory>
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
-typedef std::shared_ptr<SDL_Surface> SdlSurfacePtr;
-typedef std::shared_ptr<SDL_Texture> SdlTexturePtr;
+#include "sdl.hpp"
 
 class
 TextureManager
 {
 public:
-	static SdlTexturePtr
-	makeTexture(const char *fileName, SDL_Renderer *renderer)
+	static Sdl::TexturePtr
+	makeTexture(const char *fileName, Sdl::RendererPtr &renderer)
 	{
-		SdlSurfacePtr surface(IMG_Load(fileName), SDL_FreeSurface);
+		Sdl::SurfacePtr surface(IMG_Load(fileName), SDL_FreeSurface);
 		if (!surface)
 			throw Exception("IMG_Load failed"); // TODO add path info
 
-		SdlTexturePtr texture(SDL_CreateTextureFromSurface(renderer, surface.get()), SDL_DestroyTexture);
+		// TODO move to Sdl::makeTexture()
+		Sdl::TexturePtr texture(SDL_CreateTextureFromSurface(renderer.get(), surface.get()), SDL_DestroyTexture);
 		if (!texture)
-			throw Exception("SDL_CreateTextureFromSurface failed"); // TODO add path info
+			throw Exception("SDL_CreateTextureFromSurface failed");
 
 		return texture;
 	}

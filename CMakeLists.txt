@@ -20,6 +20,7 @@ add_executable(foobar
 	game.hpp
 	main.cpp
 	player.hpp
+	sdl.hpp
 	texturemanager.hpp
 	)
 
