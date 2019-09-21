@@ -27,6 +27,12 @@ public:
 		return texture;
 	}
 
+	static void
+	draw(Sdl::RendererPtr &renderer, const Sdl::TexturePtr &texture, const SDL_Rect &src, const SDL_Rect &dest)
+	{
+		SDL_RenderCopy(renderer.get(), texture.get(), &src, &dest);
+	}
+
 };
 
 #endif // !defined(TEXTUREMANAGER_HPP)

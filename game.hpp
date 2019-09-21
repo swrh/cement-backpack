@@ -5,6 +5,7 @@
 
 #include "exception.hpp"
 #include "gameobject.hpp"
+#include "map.hpp"
 #include "sdl.hpp"
 
 class
@@ -15,6 +16,7 @@ private:
 	Sdl::RendererPtr renderer;
 
 	std::shared_ptr<GameObject> player, enemy;
+	std::shared_ptr<Map> map;
 
 public:
 	Game(const char *title, std::size_t x, std::size_t y, std::size_t w, std::size_t h, bool fullscreen)
@@ -33,14 +35,17 @@ public:
 
 		player = std::make_shared<GameObject>("assets/guy1idle0.png", renderer, 0, 0);
 		enemy = std::make_shared<GameObject>("assets/guy1idle1.png", renderer, 32, 32);
+		map = std::make_shared<Map>("assets/map.txt", renderer);
 
 		isRunning = true;
 	}
 
 	~Game()
 	{
+		map.reset();
 		enemy.reset();
 		player.reset();
+
 		renderer.reset();
 		window.reset();
 
@@ -82,6 +87,7 @@ public:
 	{
 		SDL_RenderClear(renderer.get());
 
+		map->draw();
 		player->render();
 		enemy->render();
 
