@@ -14,7 +14,7 @@ private:
 	Sdl::WindowPtr window;
 	Sdl::RendererPtr renderer;
 
-	std::shared_ptr<GameObject> player;
+	std::shared_ptr<GameObject> player, enemy;
 
 public:
 	Game(const char *title, std::size_t x, std::size_t y, std::size_t w, std::size_t h, bool fullscreen)
@@ -32,12 +32,14 @@ public:
 		SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
 
 		player = std::make_shared<GameObject>("assets/guy1idle0.png", renderer, 0, 0);
+		enemy = std::make_shared<GameObject>("assets/guy1idle1.png", renderer, 32, 32);
 
 		isRunning = true;
 	}
 
 	~Game()
 	{
+		enemy.reset();
 		player.reset();
 		renderer.reset();
 		window.reset();
@@ -72,6 +74,7 @@ public:
 	update()
 	{
 		player->update();
+		enemy->update();
 	}
 
 	void
@@ -80,6 +83,7 @@ public:
 		SDL_RenderClear(renderer.get());
 
 		player->render();
+		enemy->render();
 
 		SDL_RenderPresent(renderer.get());
 	}
