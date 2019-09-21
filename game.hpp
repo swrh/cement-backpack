@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include "exception.hpp"
-#include "player.hpp"
+#include "gameobject.hpp"
 #include "sdl.hpp"
 
 class
@@ -14,7 +14,7 @@ private:
 	Sdl::WindowPtr window;
 	Sdl::RendererPtr renderer;
 
-	std::shared_ptr<Player> player;
+	std::shared_ptr<GameObject> player;
 
 public:
 	Game(const char *title, std::size_t x, std::size_t y, std::size_t w, std::size_t h, bool fullscreen)
@@ -31,7 +31,7 @@ public:
 		renderer = Sdl::makeRenderer(window, -1, 0);
 		SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
 
-		player = std::make_shared<Player>(renderer);
+		player = std::make_shared<GameObject>("assets/guy1idle0.png", renderer, 0, 0);
 
 		isRunning = true;
 	}
@@ -71,6 +71,7 @@ public:
 	void
 	update()
 	{
+		player->update();
 	}
 
 	void

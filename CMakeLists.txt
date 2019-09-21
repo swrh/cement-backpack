@@ -18,8 +18,8 @@ include_directories(
 add_executable(foobar
 	exception.hpp
 	game.hpp
+	gameobject.hpp
 	main.cpp
-	player.hpp
 	sdl.hpp
 	texturemanager.hpp
 	)
