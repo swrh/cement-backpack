@@ -22,6 +22,7 @@ add_executable(foobar
 	game.hpp
 	main.cpp
 	map.hpp
+	point.hpp
 	positioncomponent.hpp
 	sdl.hpp
 	spritecomponent.hpp

@@ -2,51 +2,43 @@
 #define POSITIONCOMPONENT_HPP
 
 #include "components.hpp"
+#include "point.hpp"
 
 class
 PositionComponent
 : public Component
 {
 private:
-	Uint32 x = 0, y = 0;
+	Point point;
 
 public:
-	PositionComponent(Entity *entity_, Uint32 x_, Uint32 y_)
+	PositionComponent(Entity *entity_, const Point &p)
 		: Component(entity_)
-		, x(x_)
-		, y(y_)
+		, point(p)
 	{
 	}
 
 	PositionComponent(Entity *entity_)
-		: PositionComponent(entity_, 0, 0)
+		: PositionComponent(entity_, Point(0, 0))
 	{
 	}
 
-	Uint32
-	getX() const
+	const Point &
+	getPoint() const
 	{
-		return x;
+		return point;
 	}
 
-	Uint32
-	getY() const
+	Point &
+	getPoint()
 	{
-		return y;
+		return point;
 	}
 
 	void
 	update() override
 	{
-		++x;
-		++y;
-	}
-
-	void
-	setPosition(Uint32 x_, Uint32 y_)
-	{
-		x = x_;
-		y = y_;
+		++point;
 	}
 
 };

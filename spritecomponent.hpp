@@ -38,8 +38,8 @@ public:
 	void
 	update() override
 	{
-		destinationRectangle.x = position->getX();
-		destinationRectangle.y = position->getY();
+		destinationRectangle.x = position->getPoint().getX();
+		destinationRectangle.y = position->getPoint().getY();
 	}
 
 	void

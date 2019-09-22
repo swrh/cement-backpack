@@ -38,7 +38,7 @@ public:
 
 		map = std::make_shared<Map>("assets/map.txt", renderer);
 
-		player.addComponent<PositionComponent>(100, 500);
+		player.addComponent<PositionComponent>(Point(0, 0));
 		player.addComponent<SpriteComponent>(renderer, "assets/guy1idle0.png");
 
 		isRunning = true;
