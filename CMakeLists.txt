@@ -9,10 +9,11 @@ project(foobar
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(SDL2 REQUIRED)
+find_package(PkgConfig REQUIRED)
 
-include_directories(
-	${SDL2_INCLUDE_DIR}
+pkg_check_modules(SDL2 REQUIRED
+	sdl2
+	sdl2_image
 	)
 
 add_executable(foobar
@@ -32,9 +33,14 @@ add_executable(foobar
 	vector2d.hpp
 	)
 
+target_include_directories(foobar
+	PUBLIC
+		${SDL2_INCLUDE_DIRS}
+	)
+
 target_link_libraries(foobar
-	${SDL2_LIBRARIES}
-	SDL2_image
+	PUBLIC
+		${SDL2_LINK_LIBRARIES}
 	)
 
 # vim:set sw=4 ts=4 noet:
