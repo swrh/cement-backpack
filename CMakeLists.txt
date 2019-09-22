@@ -16,11 +16,13 @@ include_directories(
 	)
 
 add_executable(foobar
+	ecs.hpp
 	exception.hpp
 	game.hpp
 	gameobject.hpp
 	main.cpp
 	map.hpp
+	positioncomponent.hpp
 	sdl.hpp
 	texturemanager.hpp
 	)

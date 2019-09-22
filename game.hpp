@@ -3,9 +3,11 @@
 
 #include <SDL2/SDL.h>
 
+#include "ecs.hpp"
 #include "exception.hpp"
 #include "gameobject.hpp"
 #include "map.hpp"
+#include "positioncomponent.hpp"
 #include "sdl.hpp"
 
 class
@@ -17,6 +19,9 @@ private:
 
 	std::shared_ptr<GameObject> player, enemy;
 	std::shared_ptr<Map> map;
+
+	Manager manager;
+	Entity &newPlayer = manager.addEntity();
 
 public:
 	Game(const char *title, std::size_t x, std::size_t y, std::size_t w, std::size_t h, bool fullscreen)
@@ -36,6 +41,8 @@ public:
 		player = std::make_shared<GameObject>("assets/guy1idle0.png", renderer, 0, 0);
 		enemy = std::make_shared<GameObject>("assets/guy1idle1.png", renderer, 32, 32);
 		map = std::make_shared<Map>("assets/map.txt", renderer);
+
+		newPlayer.addComponent<PositionComponent>();
 
 		isRunning = true;
 	}
@@ -80,6 +87,8 @@ public:
 	{
 		player->update();
 		enemy->update();
+
+		manager.update();
 	}
 
 	void
