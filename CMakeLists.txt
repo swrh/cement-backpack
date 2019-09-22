@@ -21,6 +21,7 @@ add_executable(foobar
 	exception.hpp
 	game.hpp
 	main.cpp
+	matrix.hpp
 	map.hpp
 	point.hpp
 	positioncomponent.hpp

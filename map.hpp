@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 
+#include "matrix.hpp"
 #include "sdl.hpp"
 
 class
@@ -12,8 +13,7 @@ Map
 private:
 	Sdl::RendererPtr renderer;
 	Sdl::TexturePtr grass, stone, water, wood;
-	std::vector<char> data;
-	std::size_t width, height;
+	Matrix<char> data;
 	SDL_Rect sourceRectangle, destinationRectangle;
 
 public:
@@ -40,7 +40,8 @@ public:
 	void
 	load(const char *path)
 	{
-		height = width = 0;
+		std::vector<char> vec;
+		std::size_t width = 0, height = 0;
 
 		std::ifstream infile(path);
 
@@ -52,23 +53,25 @@ public:
 				throw Exception("Map::load: line in map file with invalid width");
 
 			++height;
-			data.resize(width * height);
-			std::copy(line.begin(), line.end(), data.begin() + width * (height - 1));
+			vec.resize(width * height);
+			std::copy(line.begin(), line.end(), vec.begin() + width * (height - 1));
 		}
 
-		if (data.size() <= 0)
+		if (vec.size() <= 0)
 			throw Exception("Map::load: empty map");
+
+		data = Matrix<char>(width, height, std::move(vec));
 	}
 
 	void
 	draw()
 	{
-		for (Uint32 x = 0; x < width; ++x) {
-			for (Uint32 y = 0; y < height; ++y) {
+		for (Uint32 x = 0; x < data.getWidth(); ++x) {
+			for (Uint32 y = 0; y < data.getHeight(); ++y) {
 				destinationRectangle.x = x * 32;
 				destinationRectangle.y = y * 32;
 
-				char c = data[y * width + x];
+				char c = data(x, y);
 				switch (c) {
 				case ' ':
 					TextureManager::draw(renderer, grass, sourceRectangle, destinationRectangle);
