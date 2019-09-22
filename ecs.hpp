@@ -44,11 +44,6 @@ public:
 	}
 
 	virtual void
-	init()
-	{
-	}
-
-	virtual void
 	update()
 	{
 	}
@@ -107,16 +102,14 @@ public:
 	template <typename T, typename... Args>
 	T &addComponent(Args &&... args)
 	{
-		// Not sure if we should really use make_shared or new here.
-		std::unique_ptr<T> ptr = std::make_unique<T>(std::forward<Args>(args)...);
+		std::unique_ptr<T> ptr(new T(std::forward<Args>(args)...));
 		T *c = ptr.get();
-		components.emplace_back(std::move(ptr));
+		components.push_back(std::move(ptr));
 
 		componentArray[getComponentTypeId<T>()] = c;
 		componentBitSet[getComponentTypeId<T>()] = true;
 
 		c->entity = this;
-		c->init();
 
 		return *c;
 	}

@@ -24,12 +24,6 @@ public:
 	}
 
 	void
-	init() override
-	{
-		x = y = 0;
-	}
-
-	void
 	update() override
 	{
 		++x;
