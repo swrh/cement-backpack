@@ -17,14 +17,14 @@ private:
 	SDL_Rect sourceRectangle, destinationRectangle;
 
 public:
-	Map(const char *fileName, Sdl::RendererPtr &renderer_)
+	Map(const char *path, Sdl::RendererPtr &renderer_)
 		: renderer(renderer_)
-		, grass(TextureManager::makeTexture("assets/grass.png", renderer))
-		, stone(TextureManager::makeTexture("assets/stone.png", renderer))
-		, water(TextureManager::makeTexture("assets/water.png", renderer))
-		, wood(TextureManager::makeTexture("assets/wood.png", renderer))
+		, grass(TextureManager::makeTexture(renderer, "assets/grass.png"))
+		, stone(TextureManager::makeTexture(renderer, "assets/stone.png"))
+		, water(TextureManager::makeTexture(renderer, "assets/water.png"))
+		, wood(TextureManager::makeTexture(renderer, "assets/wood.png"))
 	{
-		load(fileName);
+		load(path);
 
 		sourceRectangle.x = sourceRectangle.y = 0;
 		sourceRectangle.w = destinationRectangle.w = 32;
@@ -38,11 +38,11 @@ public:
 	}
 
 	void
-	load(const char *fileName)
+	load(const char *path)
 	{
 		height = width = 0;
 
-		std::ifstream infile(fileName);
+		std::ifstream infile(path);
 
 		std::string line;
 		while (infile && std::getline(infile, line)) {

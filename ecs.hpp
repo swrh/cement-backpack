@@ -38,6 +38,11 @@ Component
 public:
 	Entity *entity;
 
+	Component(Entity *entity_)
+		: entity(entity_)
+	{
+	}
+
 	virtual
 	~Component()
 	{
@@ -102,14 +107,12 @@ public:
 	template <typename T, typename... Args>
 	T &addComponent(Args &&... args)
 	{
-		std::unique_ptr<T> ptr(new T(std::forward<Args>(args)...));
+		std::unique_ptr<T> ptr(new T(this, std::forward<Args>(args)...));
 		T *c = ptr.get();
 		components.push_back(std::move(ptr));
 
 		componentArray[getComponentTypeId<T>()] = c;
 		componentBitSet[getComponentTypeId<T>()] = true;
-
-		c->entity = this;
 
 		return *c;
 	}

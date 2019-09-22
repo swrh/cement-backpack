@@ -13,9 +13,9 @@ TextureManager
 {
 public:
 	static Sdl::TexturePtr
-	makeTexture(const char *fileName, Sdl::RendererPtr &renderer)
+	makeTexture(Sdl::RendererPtr &renderer, const char *path)
 	{
-		Sdl::SurfacePtr surface(IMG_Load(fileName), SDL_FreeSurface);
+		Sdl::SurfacePtr surface(IMG_Load(path), SDL_FreeSurface);
 		if (!surface)
 			throw Exception("IMG_Load failed"); // TODO add path info
 

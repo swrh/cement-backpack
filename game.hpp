@@ -3,11 +3,10 @@
 
 #include <SDL2/SDL.h>
 
+#include "components.hpp"
 #include "ecs.hpp"
 #include "exception.hpp"
-#include "gameobject.hpp"
 #include "map.hpp"
-#include "positioncomponent.hpp"
 #include "sdl.hpp"
 
 class
@@ -17,11 +16,10 @@ private:
 	Sdl::WindowPtr window;
 	Sdl::RendererPtr renderer;
 
-	std::shared_ptr<GameObject> player, enemy;
 	std::shared_ptr<Map> map;
 
 	Manager manager;
-	Entity &newPlayer = manager.addEntity();
+	Entity &player = manager.addEntity();
 
 public:
 	Game(const char *title, std::size_t x, std::size_t y, std::size_t w, std::size_t h, bool fullscreen)
@@ -38,11 +36,10 @@ public:
 		renderer = Sdl::makeRenderer(window, -1, 0);
 		SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
 
-		player = std::make_shared<GameObject>("assets/guy1idle0.png", renderer, 0, 0);
-		enemy = std::make_shared<GameObject>("assets/guy1idle1.png", renderer, 32, 32);
 		map = std::make_shared<Map>("assets/map.txt", renderer);
 
-		newPlayer.addComponent<PositionComponent>();
+		player.addComponent<PositionComponent>(100, 500);
+		player.addComponent<SpriteComponent>(renderer, "assets/guy1idle0.png");
 
 		isRunning = true;
 	}
@@ -50,8 +47,6 @@ public:
 	~Game()
 	{
 		map.reset();
-		enemy.reset();
-		player.reset();
 
 		renderer.reset();
 		window.reset();
@@ -85,9 +80,6 @@ public:
 	void
 	update()
 	{
-		player->update();
-		enemy->update();
-
 		manager.update();
 	}
 
@@ -97,8 +89,7 @@ public:
 		SDL_RenderClear(renderer.get());
 
 		map->draw();
-		player->render();
-		enemy->render();
+		manager.draw();
 
 		SDL_RenderPresent(renderer.get());
 	}

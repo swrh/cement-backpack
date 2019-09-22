@@ -1,7 +1,7 @@
 #if !defined(POSITIONCOMPONENT_HPP)
 #define POSITIONCOMPONENT_HPP
 
-#include "ecs.hpp"
+#include "components.hpp"
 
 class
 PositionComponent
@@ -11,6 +11,18 @@ private:
 	Uint32 x = 0, y = 0;
 
 public:
+	PositionComponent(Entity *entity_, Uint32 x_, Uint32 y_)
+		: Component(entity_)
+		, x(x_)
+		, y(y_)
+	{
+	}
+
+	PositionComponent(Entity *entity_)
+		: PositionComponent(entity_, 0, 0)
+	{
+	}
+
 	Uint32
 	getX() const
 	{
