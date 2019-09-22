@@ -12,8 +12,11 @@ main(int argc, const char *argv[])
 	while (game.running()) {
 		Uint32 frameTime = SDL_GetTicks();
 
-		game.handleEvents();
+		bool hadEvent = game.handleEvents();
 		game.update();
+		if (hadEvent)
+			continue;
+
 		game.render();
 
 		frameTime = SDL_GetTicks() - frameTime;

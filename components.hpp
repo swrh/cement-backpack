@@ -1,9 +1,9 @@
 #if !defined(COMPONENTS_HPP)
 #define COMPONENTS_HPP
 
-#include "ecs.hpp"
-#include "transformcomponent.hpp"
+#include "keyboardcontroller.hpp"
 #include "spritecomponent.hpp"
+#include "transformcomponent.hpp"
 
 #endif // !defined(COMPONENTS_HPP)
 

@@ -20,14 +20,15 @@ add_executable(foobar
 	ecs.hpp
 	exception.hpp
 	game.hpp
+	keyboardcontroller.hpp
 	main.cpp
-	matrix.hpp
 	map.hpp
+	matrix.hpp
 	point.hpp
-	transformcomponent.hpp
 	sdl.hpp
 	spritecomponent.hpp
 	texturemanager.hpp
+	transformcomponent.hpp
 	vector2d.hpp
 	)
 

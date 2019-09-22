@@ -138,6 +138,58 @@ public:
 		return p;
 	}
 
+	Point<T> &operator+=(value_type value)
+	{
+		(*this) += Point<T>(value, value);
+		return *this;
+	}
+
+	Point<T> &operator-=(value_type value)
+	{
+		(*this) -= Point<T>(value, value);
+		return *this;
+	}
+
+	Point<T> &operator*=(value_type value)
+	{
+		(*this) *= Point<T>(value, value);
+		return *this;
+	}
+
+	Point<T> &operator/=(value_type value)
+	{
+		(*this) /= Point<T>(value, value);
+		return *this;
+	}
+
+	Point<T> operator+(value_type value) const
+	{
+		Point<T> p(*this);
+		p += Point<T>(value, value);
+		return p;
+	}
+
+	Point<T> operator-(value_type value) const
+	{
+		Point<T> p(*this);
+		p -= Point<T>(value, value);
+		return p;
+	}
+
+	Point<T> operator*(value_type value) const
+	{
+		Point<T> p(*this);
+		p *= Point<T>(value, value);
+		return p;
+	}
+
+	Point<T> operator/(value_type value) const
+	{
+		Point<T> p(*this);
+		p /= Point<T>(value, value);
+		return p;
+	}
+
 public:
 	friend std::ostream &operator<<(std::ostream &stream, const Point<T> &p)
 	{

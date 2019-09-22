@@ -21,6 +21,8 @@ private:
 	Manager manager;
 	Entity &player = manager.addEntity();
 
+	SDL_Event event;
+
 public:
 	Game(const char *title, std::size_t x, std::size_t y, std::size_t w, std::size_t h, bool fullscreen)
 	{
@@ -40,6 +42,7 @@ public:
 
 		player.addComponent<TransformComponent>(Vector2D(0, 0));
 		player.addComponent<SpriteComponent>(renderer, "assets/guy1idle0.png");
+		player.addComponent<KeyboardController>(event);
 
 		isRunning = true;
 	}
@@ -59,22 +62,18 @@ public:
 private:
 	bool isInitialized = false;
 public:
-	void
+	bool
 	handleEvents()
 	{
-		SDL_Event event;
-
-		if (!SDL_PollEvent(&event))
-			return;
-
-		switch (event.type) {
-		case SDL_QUIT:
-			isRunning = false;
-			break;
-
-		default:
-			break;
+		bool hadEvent = !!SDL_PollEvent(&event);
+		if (hadEvent) {
+			if (event.type == SDL_QUIT) {
+				isRunning = false;
+			}
+		} else {
+			SDL_zero(event);
 		}
+		return hadEvent;
 	}
 
 	void
@@ -82,9 +81,6 @@ public:
 	{
 		manager.refresh();
 		manager.update();
-		player.getComponent<TransformComponent>().getPosition() += Vector2D(2, .5);
-		if (player.getComponent<TransformComponent>().getPosition().getX() > 200)
-			player.getComponent<SpriteComponent>().setTexture("assets/guy1death.png");
 	}
 
 	void

@@ -1,7 +1,7 @@
 #if !defined(TRANSFORMCOMPONENT_HPP)
 #define TRANSFORMCOMPONENT_HPP
 
-#include "components.hpp"
+#include "ecs.hpp"
 #include "vector2d.hpp"
 
 class
@@ -9,7 +9,8 @@ TransformComponent
 : public Component
 {
 private:
-	Vector2D position;
+	Vector2D position, velocity;
+	unsigned int speed = 1;
 
 public:
 	TransformComponent(Entity *entity_, const Vector2D &p)
@@ -33,6 +34,24 @@ public:
 	getPosition()
 	{
 		return position;
+	}
+
+	const Vector2D &
+	getVelocity() const
+	{
+		return velocity;
+	}
+
+	Vector2D &
+	getVelocity()
+	{
+		return velocity;
+	}
+
+	void
+	update() override
+	{
+		position += velocity * speed;
 	}
 
 };
