@@ -3,11 +3,12 @@
 
 #include <ostream>
 
+template <typename T>
 class
 Point
 {
 public:
-	typedef std::size_t value_type;
+	typedef T value_type;
 
 private:
 	value_type x, y;
@@ -43,102 +44,102 @@ public:
 		y = y_;
 	}
 
-	bool operator==(const Point &other) const
+	bool operator==(const Point<T> &other) const
 	{
 		return x == other.x && y == other.y;
 	}
 
-	bool operator!=(const Point &other) const
+	bool operator!=(const Point<T> &other) const
 	{
 		return !this->operator==(other);
 	}
 
-	Point &operator++()
+	Point<T> &operator++()
 	{
 		++x;
 		++y;
 		return *this;
 	}
 
-	Point operator++(int)
+	Point<T> operator++(int)
 	{
-		Point p(*this);
+		Point<T> p(*this);
 		++(*this);
 		return p;
 	}
 
-	Point &operator--()
+	Point<T> &operator--()
 	{
 		--x;
 		--y;
 		return *this;
 	}
 
-	Point operator--(int)
+	Point<T> operator--(int)
 	{
-		Point p(*this);
+		Point<T> p(*this);
 		--(*this);
 		return p;
 	}
 
-	Point &operator+=(const Point &other)
+	Point<T> &operator+=(const Point<T> &other)
 	{
 		x += other.x;
 		y += other.y;
 		return *this;
 	}
 
-	Point &operator-=(const Point &other)
+	Point<T> &operator-=(const Point<T> &other)
 	{
 		x -= other.x;
 		y -= other.y;
 		return *this;
 	}
 
-	Point &operator*=(const Point &other)
+	Point<T> &operator*=(const Point<T> &other)
 	{
 		x *= other.x;
 		y *= other.y;
 		return *this;
 	}
 
-	Point &operator/=(const Point &other)
+	Point<T> &operator/=(const Point<T> &other)
 	{
 		x /= other.x;
 		y /= other.y;
 		return *this;
 	}
 
-	Point operator+(const Point &other) const
+	Point<T> operator+(const Point<T> &other) const
 	{
-		Point p(*this);
+		Point<T> p(*this);
 		p += other;
 		return p;
 	}
 
-	Point operator-(const Point &other) const
+	Point<T> operator-(const Point<T> &other) const
 	{
-		Point p(*this);
+		Point<T> p(*this);
 		p -= other;
 		return p;
 	}
 
-	Point operator*(const Point &other) const
+	Point<T> operator*(const Point<T> &other) const
 	{
-		Point p(*this);
+		Point<T> p(*this);
 		p *= other;
 		return p;
 	}
 
-	Point operator/(const Point &other) const
+	Point<T> operator/(const Point<T> &other) const
 	{
-		Point p(*this);
+		Point<T> p(*this);
 		p /= other;
 		return p;
 	}
 
 public:
-	friend std::ostream &operator<<(std::ostream &stream, const Point &p)
+	friend std::ostream &operator<<(std::ostream &stream, const Point<T> &p)
 	{
 		return stream << p.x << ',' << p.y;
 	}

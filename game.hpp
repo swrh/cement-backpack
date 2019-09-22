@@ -38,7 +38,7 @@ public:
 
 		map = std::make_shared<Map>("assets/map.txt", renderer);
 
-		player.addComponent<PositionComponent>(Point(0, 0));
+		player.addComponent<TransformComponent>(Vector2D(0, 0));
 		player.addComponent<SpriteComponent>(renderer, "assets/guy1idle0.png");
 
 		isRunning = true;
@@ -80,7 +80,11 @@ public:
 	void
 	update()
 	{
+		manager.refresh();
 		manager.update();
+		player.getComponent<TransformComponent>().getPosition() += Vector2D(2, .5);
+		if (player.getComponent<TransformComponent>().getPosition().getX() > 200)
+			player.getComponent<SpriteComponent>().setTexture("assets/guy1death.png");
 	}
 
 	void

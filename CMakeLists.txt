@@ -24,10 +24,11 @@ add_executable(foobar
 	matrix.hpp
 	map.hpp
 	point.hpp
-	positioncomponent.hpp
+	transformcomponent.hpp
 	sdl.hpp
 	spritecomponent.hpp
 	texturemanager.hpp
+	vector2d.hpp
 	)
 
 target_link_libraries(foobar
