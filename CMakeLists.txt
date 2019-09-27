@@ -17,6 +17,8 @@ pkg_check_modules(SDL2 REQUIRED
 	)
 
 add_executable(foobar
+	collidercomponent.hpp
+	collision.hpp
 	components.hpp
 	ecs.hpp
 	exception.hpp

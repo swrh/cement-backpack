@@ -25,8 +25,8 @@ public:
 		transform = &entity->getComponent<TransformComponent>();
 
 		sourceRectangle.x = sourceRectangle.y = 0;
-		sourceRectangle.w = sourceRectangle.h = 32;
-		destinationRectangle.w = destinationRectangle.h = 32 * 2;
+		sourceRectangle.w = transform->getDimensions().getX();
+		sourceRectangle.h = transform->getDimensions().getY();
 	}
 
 	SpriteComponent(Entity *entity_, Sdl::RendererPtr &renderer_, const char *path)
@@ -46,6 +46,8 @@ public:
 	{
 		destinationRectangle.x = transform->getPosition().getX();
 		destinationRectangle.y = transform->getPosition().getY();
+		destinationRectangle.w = transform->getDimensions().getX() * transform->getScale();
+		destinationRectangle.h = transform->getDimensions().getY() * transform->getScale();
 	}
 
 	void

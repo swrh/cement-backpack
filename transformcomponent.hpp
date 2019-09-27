@@ -10,12 +10,27 @@ TransformComponent
 {
 private:
 	Vector2D position, velocity;
-	unsigned int speed = 1;
+	Point<unsigned int> dimensions = { 32, 32 };
+	unsigned int scale = 1, speed = 1;
 
 public:
-	TransformComponent(Entity *entity_, const Vector2D &p)
+	TransformComponent(Entity *entity_, const Vector2D &pos)
 		: Component(entity_)
-		, position(p)
+		, position(pos)
+	{
+	}
+
+	TransformComponent(Entity *entity_, unsigned int sc)
+		: Component(entity_)
+		, scale(sc)
+	{
+	}
+
+	TransformComponent(Entity *entity_, const Vector2D &pos, const Point<unsigned int> &dim, unsigned int sc)
+		: Component(entity_)
+		, position(pos)
+		, dimensions(dim)
+		, scale(sc)
 	{
 	}
 
@@ -46,6 +61,24 @@ public:
 	getVelocity()
 	{
 		return velocity;
+	}
+
+	const Point<unsigned int> &
+	getDimensions() const
+	{
+		return dimensions;
+	}
+
+	Point<unsigned int> &
+	getDimensions()
+	{
+		return dimensions;
+	}
+
+	unsigned int
+	getScale() const
+	{
+		return scale;
 	}
 
 	void

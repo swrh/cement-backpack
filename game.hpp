@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 
+#include "collision.hpp"
 #include "components.hpp"
 #include "ecs.hpp"
 #include "exception.hpp"
@@ -20,6 +21,7 @@ private:
 
 	Manager manager;
 	Entity &player = manager.addEntity();
+	Entity &wall = manager.addEntity();
 
 	SDL_Event event;
 
@@ -40,9 +42,14 @@ public:
 
 		map = std::make_shared<Map>("assets/map.txt", renderer);
 
-		player.addComponent<TransformComponent>(Vector2D(0, 0));
+		player.addComponent<TransformComponent>(3);
 		player.addComponent<SpriteComponent>(renderer, "assets/guy1idle0.png");
 		player.addComponent<KeyboardController>(event);
+		player.addComponent<ColliderComponent>("player");
+
+		wall.addComponent<TransformComponent>(Vector2D(300, 300), Point<unsigned int>(20, 300), 1);
+		wall.addComponent<SpriteComponent>(renderer, "assets/grass.png");
+		wall.addComponent<ColliderComponent>("wall");
 
 		isRunning = true;
 	}
@@ -81,6 +88,10 @@ public:
 	{
 		manager.refresh();
 		manager.update();
+
+		if (Collision::AABB(player.getComponent<ColliderComponent>().getCollider(), wall.getComponent<ColliderComponent>().getCollider())) {
+			// Wall hit!
+		}
 	}
 
 	void

@@ -1,6 +1,7 @@
 #if !defined(COMPONENTS_HPP)
 #define COMPONENTS_HPP
 
+#include "collidercomponent.hpp"
 #include "keyboardcontroller.hpp"
 #include "spritecomponent.hpp"
 #include "transformcomponent.hpp"
