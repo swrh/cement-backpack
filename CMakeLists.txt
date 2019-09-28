@@ -2,7 +2,7 @@
 
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
-project(foobar
+project(cement-backpack
 	VERSION 0.0.1
 	LANGUAGES CXX
 	)
@@ -16,7 +16,7 @@ pkg_check_modules(SDL2 REQUIRED
 	SDL2_image
 	)
 
-add_executable(foobar
+add_executable(cement-backpack
 	collidercomponent.hpp
 	collision.hpp
 	components.hpp
@@ -37,12 +37,12 @@ add_executable(foobar
 	vector2d.hpp
 	)
 
-target_include_directories(foobar
+target_include_directories(cement-backpack
 	PUBLIC
 		${SDL2_INCLUDE_DIRS}
 	)
 
-target_link_libraries(foobar
+target_link_libraries(cement-backpack
 	PUBLIC
 		${SDL2_LINK_LIBRARIES}
 	)
