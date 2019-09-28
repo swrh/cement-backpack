@@ -44,8 +44,13 @@ public:
 
 		map = std::make_shared<Map>("assets/map.txt", *renderer);
 
-		player.addComponent<TransformComponent>(3);
-		player.addComponent<SpriteComponent>(*renderer, "assets/guy1idle0.png");
+		player.addComponent<TransformComponent>(Vector2D(0, 0), Vector2D(19, 34), 2);
+		player.addComponent<SpriteComponent>(*renderer, "assets/player/idle.png", 12);
+		//player.addComponent<SpriteComponent>(*renderer, "assets/player/running.png", 8);
+		//player.addComponent<SpriteComponent>(*renderer, "assets/player/falling.png", 2);
+		//player.addComponent<SpriteComponent>(*renderer, "assets/player/ledge-grabbing.png", 6);
+		//player.addComponent<SpriteComponent>(*renderer, "assets/player/jumping.png");
+		//player.addComponent<SpriteComponent>(*renderer, "assets/player/landing.png");
 		player.addComponent<KeyboardController>(event);
 		player.addComponent<ColliderComponent>("player");
 		player.addComponent<RecoilComponent>(colliders);

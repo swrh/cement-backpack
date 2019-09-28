@@ -17,25 +17,39 @@ private:
 
 	SDL_Rect source, destination;
 
+	unsigned int frames = 1;
+
 public:
 	SpriteComponent(Entity *entity_, SDL_Renderer &renderer_)
+		: SpriteComponent(entity_, renderer_, nullptr)
+	{
+	}
+
+	SpriteComponent(Entity *entity_, SDL_Renderer &renderer_, const char *path, unsigned int frames_ = 1)
 		: Component(entity_)
 		, renderer(renderer_)
+		, frames(frames_)
 	{
+		frames = frames_;
+
 		if (!entity->hasComponent<TransformComponent>())
 			transform = &entity->addComponent<TransformComponent>();
 		else
 			transform = &entity->getComponent<TransformComponent>();
 
+		if (path) {
+			setTexture(path);
+
+			int w, h;
+			if (SDL_QueryTexture(texture.get(), nullptr, nullptr, &w, &h) != 0)
+				throw Exception("SDL_QueryTexture failed");
+
+			transform->getDimensions() = Vector2D(w / frames, h);
+		}
+
 		source.x = source.y = 0;
 		source.w = transform->getDimensions().getX();
 		source.h = transform->getDimensions().getY();
-	}
-
-	SpriteComponent(Entity *entity_, SDL_Renderer &renderer_, const char *path)
-		: SpriteComponent(entity_, renderer_)
-	{
-		setTexture(path);
 	}
 
 	void
@@ -47,6 +61,9 @@ public:
 	void
 	update() override
 	{
+		if (frames > 1)
+			source.x = source.w * (static_cast<unsigned int>(SDL_GetTicks() / 100) % frames);
+
 		destination.x = transform->getPosition().getX();
 		destination.y = transform->getPosition().getY();
 		destination.w = transform->getDimensions().getX() * transform->getScale();
