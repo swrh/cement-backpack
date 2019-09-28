@@ -28,6 +28,7 @@ add_executable(foobar
 	map.hpp
 	matrix.hpp
 	point.hpp
+	recoilcomponent.hpp
 	sdl.hpp
 	sdlimage.hpp
 	spritecomponent.hpp

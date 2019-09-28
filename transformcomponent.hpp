@@ -9,9 +9,9 @@ TransformComponent
 : public Component
 {
 private:
-	Vector2D position, velocity;
-	Vector2D dimensions = { 32, 32 };
+	Vector2D position, velocity, dimensions = { 32, 32 };
 	unsigned int scale = 1, speed = 1;
+	Vector2D direction { 1, 1 };
 
 public:
 	TransformComponent(Entity *entity_, const Vector2D &pos)
@@ -81,10 +81,22 @@ public:
 		return scale;
 	}
 
+	Vector2D &
+	getDirection()
+	{
+		return direction;
+	}
+
+	Vector2D
+	predictPosition() const
+	{
+		return position + (velocity * speed);
+	}
+
 	void
 	update() override
 	{
-		position += velocity * speed;
+		position += velocity * speed * direction;
 	}
 
 	void

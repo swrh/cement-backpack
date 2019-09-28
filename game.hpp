@@ -23,6 +23,8 @@ private:
 	Entity &player = manager.addEntity();
 	Entity &wall = manager.addEntity();
 
+	std::vector<ColliderComponent *> colliders;
+
 	SDL_Event event;
 
 public:
@@ -46,10 +48,11 @@ public:
 		player.addComponent<SpriteComponent>(*renderer, "assets/guy1idle0.png");
 		player.addComponent<KeyboardController>(event);
 		player.addComponent<ColliderComponent>("player");
+		player.addComponent<RecoilComponent>(colliders);
 
 		wall.addComponent<TransformComponent>(Vector2D(300, 300), Vector2D(20, 300), 1);
 		wall.addComponent<SpriteComponent>(*renderer, "assets/grass.png");
-		wall.addComponent<ColliderComponent>("wall");
+		colliders.push_back(&wall.addComponent<ColliderComponent>("wall"));
 
 		isRunning = true;
 	}
@@ -88,10 +91,6 @@ public:
 	{
 		manager.refresh();
 		manager.update();
-
-		if (Collision::AABB(player.getComponent<ColliderComponent>(), wall.getComponent<ColliderComponent>())) {
-			// Wall hit!
-		}
 	}
 
 	void

@@ -34,6 +34,17 @@ public:
 		return collider;
 	}
 
+	SDL_Rect
+	predictCollider() const
+	{
+		SDL_Rect collider;
+		collider.x = transform->predictPosition().getX();
+		collider.y = transform->predictPosition().getY();
+		collider.w = transform->getDimensions().getX() * transform->getScale();
+		collider.h = transform->getDimensions().getY() * transform->getScale();
+		return collider;
+	}
+
 	const std::string &
 	getTag() const
 	{

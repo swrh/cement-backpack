@@ -7,6 +7,8 @@
 #include <memory>
 #include <vector>
 
+#include "exception.hpp"
+
 class Component;
 class Entity;
 
@@ -100,12 +102,16 @@ public:
 	template <typename T, typename... Args>
 	T &addComponent(Args &&... args)
 	{
+		ComponentId id = getComponentTypeId<T>();
+		if (componentBitSet[id])
+			throw Exception("Entity::addComponent: tried to add already existing component");
+
 		std::unique_ptr<T> ptr(new T(this, std::forward<Args>(args)...));
 		T *c = ptr.get();
 		components.push_back(std::move(ptr));
 
-		componentArray[getComponentTypeId<T>()] = c;
-		componentBitSet[getComponentTypeId<T>()] = true;
+		componentArray[id] = c;
+		componentBitSet[id] = true;
 
 		return *c;
 	}
@@ -113,7 +119,10 @@ public:
 	template <typename T>
 	T &getComponent() const
 	{
-		return *static_cast<T *>(componentArray[getComponentTypeId<T>()]);
+		ComponentId id = getComponentTypeId<T>();
+		if (!componentBitSet[id])
+			throw Exception("Entity::getComponent: tried to get nonexistent component");
+		return *static_cast<T *>(componentArray[id]);
 	}
 };
 
