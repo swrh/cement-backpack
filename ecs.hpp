@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include <array>
-#include <bitset>
 #include <memory>
 #include <vector>
 
@@ -31,7 +30,6 @@ getComponentTypeId() noexcept
 
 constexpr std::size_t MAX_COMPONENTS = 32;
 
-using ComponentBitSet = std::bitset<MAX_COMPONENTS>;
 using ComponentArray = std::array<Component *, MAX_COMPONENTS>;
 
 class
@@ -62,8 +60,7 @@ private:
 	bool active = true;
 	std::vector<std::unique_ptr<Component>> components;
 
-	ComponentArray componentArray;
-	ComponentBitSet componentBitSet;
+	ComponentArray componentArray = {};
 
 public:
 	void
@@ -96,33 +93,29 @@ public:
 	bool
 	hasComponent() const
 	{
-		return componentBitSet[getComponentTypeId<T>()];
+		return componentArray[getComponentTypeId<T>()];
 	}
 
 	template <typename T, typename... Args>
 	T &addComponent(Args &&... args)
 	{
 		ComponentId id = getComponentTypeId<T>();
-		if (componentBitSet[id])
+		if (componentArray[id])
 			throw Exception("Entity::addComponent: tried to add already existing component");
-
 		std::unique_ptr<T> ptr(new T(this, std::forward<Args>(args)...));
-		T *c = ptr.get();
+		T *component = ptr.get();
 		components.push_back(std::move(ptr));
-
-		componentArray[id] = c;
-		componentBitSet[id] = true;
-
-		return *c;
+		componentArray[id] = component;
+		return *component;
 	}
 
 	template <typename T>
 	T &getComponent() const
 	{
-		ComponentId id = getComponentTypeId<T>();
-		if (!componentBitSet[id])
+		Component *component = componentArray[getComponentTypeId<T>()];
+		if (!component)
 			throw Exception("Entity::getComponent: tried to get nonexistent component");
-		return *static_cast<T *>(componentArray[id]);
+		return *static_cast<T *>(component);
 	}
 };
 
