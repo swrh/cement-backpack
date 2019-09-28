@@ -10,26 +10,29 @@ SpriteComponent
 : public Component
 {
 private:
-	Sdl::RendererPtr &renderer;
+	SDL_Renderer &renderer;
 	Sdl::TexturePtr texture;
 
 	TransformComponent *transform = nullptr;
 
-	SDL_Rect sourceRectangle, destinationRectangle;
+	SDL_Rect source, destination;
 
 public:
-	SpriteComponent(Entity *entity_, Sdl::RendererPtr &renderer_)
+	SpriteComponent(Entity *entity_, SDL_Renderer &renderer_)
 		: Component(entity_)
 		, renderer(renderer_)
 	{
-		transform = &entity->getComponent<TransformComponent>();
+		if (!entity->hasComponent<TransformComponent>())
+			transform = &entity->addComponent<TransformComponent>();
+		else
+			transform = &entity->getComponent<TransformComponent>();
 
-		sourceRectangle.x = sourceRectangle.y = 0;
-		sourceRectangle.w = transform->getDimensions().getX();
-		sourceRectangle.h = transform->getDimensions().getY();
+		source.x = source.y = 0;
+		source.w = transform->getDimensions().getX();
+		source.h = transform->getDimensions().getY();
 	}
 
-	SpriteComponent(Entity *entity_, Sdl::RendererPtr &renderer_, const char *path)
+	SpriteComponent(Entity *entity_, SDL_Renderer &renderer_, const char *path)
 		: SpriteComponent(entity_, renderer_)
 	{
 		setTexture(path);
@@ -44,16 +47,16 @@ public:
 	void
 	update() override
 	{
-		destinationRectangle.x = transform->getPosition().getX();
-		destinationRectangle.y = transform->getPosition().getY();
-		destinationRectangle.w = transform->getDimensions().getX() * transform->getScale();
-		destinationRectangle.h = transform->getDimensions().getY() * transform->getScale();
+		destination.x = transform->getPosition().getX();
+		destination.y = transform->getPosition().getY();
+		destination.w = transform->getDimensions().getX() * transform->getScale();
+		destination.h = transform->getDimensions().getY() * transform->getScale();
 	}
 
 	void
 	draw() override
 	{
-		TextureManager::draw(renderer, texture, sourceRectangle, destinationRectangle);
+		TextureManager::render(renderer, *texture, source, destination);
 	}
 
 };

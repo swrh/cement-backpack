@@ -29,6 +29,7 @@ add_executable(foobar
 	matrix.hpp
 	point.hpp
 	sdl.hpp
+	sdlimage.hpp
 	spritecomponent.hpp
 	texturemanager.hpp
 	transformcomponent.hpp

@@ -37,18 +37,18 @@ public:
 			flags |= SDL_WINDOW_FULLSCREEN;
 		window = Sdl::makeWindow(title, x, y, w, h, flags);
 
-		renderer = Sdl::makeRenderer(window, -1, 0);
+		renderer = Sdl::makeRenderer(*window, -1, 0);
 		SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
 
-		map = std::make_shared<Map>("assets/map.txt", renderer);
+		map = std::make_shared<Map>("assets/map.txt", *renderer);
 
 		player.addComponent<TransformComponent>(3);
-		player.addComponent<SpriteComponent>(renderer, "assets/guy1idle0.png");
+		player.addComponent<SpriteComponent>(*renderer, "assets/guy1idle0.png");
 		player.addComponent<KeyboardController>(event);
 		player.addComponent<ColliderComponent>("player");
 
-		wall.addComponent<TransformComponent>(Vector2D(300, 300), Point<unsigned int>(20, 300), 1);
-		wall.addComponent<SpriteComponent>(renderer, "assets/grass.png");
+		wall.addComponent<TransformComponent>(Vector2D(300, 300), Vector2D(20, 300), 1);
+		wall.addComponent<SpriteComponent>(*renderer, "assets/grass.png");
 		wall.addComponent<ColliderComponent>("wall");
 
 		isRunning = true;
@@ -89,13 +89,13 @@ public:
 		manager.refresh();
 		manager.update();
 
-		if (Collision::AABB(player.getComponent<ColliderComponent>().getCollider(), wall.getComponent<ColliderComponent>().getCollider())) {
+		if (Collision::AABB(player.getComponent<ColliderComponent>(), wall.getComponent<ColliderComponent>())) {
 			// Wall hit!
 		}
 	}
 
 	void
-	render()
+	draw()
 	{
 		SDL_RenderClear(renderer.get());
 

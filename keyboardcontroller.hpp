@@ -15,7 +15,10 @@ public:
 	KeyboardController(Entity *entity_, SDL_Event &event_)
 		: Component(entity_), event(event_)
 	{
-		transform = &entity->getComponent<TransformComponent>();
+		if (!entity->hasComponent<TransformComponent>())
+			transform = &entity->addComponent<TransformComponent>();
+		else
+			transform = &entity->getComponent<TransformComponent>();
 	}
 
 	void
@@ -52,6 +55,11 @@ public:
 				break;
 			}
 		}
+	}
+
+	void
+	draw() override
+	{
 	}
 
 };

@@ -22,9 +22,22 @@ public:
 		, tag(tag_)
 	{
 		if (!entity->hasComponent<TransformComponent>())
-			entity->addComponent<TransformComponent>();
-		transform = &entity->getComponent<TransformComponent>();
+			transform = &entity->addComponent<TransformComponent>();
+		else
+			transform = &entity->getComponent<TransformComponent>();
 		update();
+	}
+
+	const SDL_Rect &
+	getCollider() const
+	{
+		return collider;
+	}
+
+	const std::string &
+	getTag() const
+	{
+		return tag;
 	}
 
 	void
@@ -36,10 +49,9 @@ public:
 		collider.h = transform->getDimensions().getY() * transform->getScale();
 	}
 
-	const SDL_Rect &
-	getCollider() const
+	void
+	draw() override
 	{
-		return collider;
 	}
 
 };

@@ -3,7 +3,7 @@
 
 #include "point.hpp"
 
-typedef Point<float> Vector2D;
+typedef Point<unsigned int> Vector2D;
 
 #endif // !defined(VECTOR2D_HPP)
 

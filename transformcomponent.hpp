@@ -10,7 +10,7 @@ TransformComponent
 {
 private:
 	Vector2D position, velocity;
-	Point<unsigned int> dimensions = { 32, 32 };
+	Vector2D dimensions = { 32, 32 };
 	unsigned int scale = 1, speed = 1;
 
 public:
@@ -26,7 +26,7 @@ public:
 	{
 	}
 
-	TransformComponent(Entity *entity_, const Vector2D &pos, const Point<unsigned int> &dim, unsigned int sc)
+	TransformComponent(Entity *entity_, const Vector2D &pos, const Vector2D &dim, unsigned int sc)
 		: Component(entity_)
 		, position(pos)
 		, dimensions(dim)
@@ -63,13 +63,13 @@ public:
 		return velocity;
 	}
 
-	const Point<unsigned int> &
+	const Vector2D &
 	getDimensions() const
 	{
 		return dimensions;
 	}
 
-	Point<unsigned int> &
+	Vector2D &
 	getDimensions()
 	{
 		return dimensions;
@@ -85,6 +85,11 @@ public:
 	update() override
 	{
 		position += velocity * speed;
+	}
+
+	void
+	draw() override
+	{
 	}
 
 };

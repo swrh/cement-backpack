@@ -17,7 +17,7 @@ main(int argc, const char *argv[])
 		if (hadEvent)
 			continue;
 
-		game.render();
+		game.draw();
 
 		frameTime = SDL_GetTicks() - frameTime;
 		if (frameTime < MIN_FRAME_TIME)

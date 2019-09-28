@@ -1,5 +1,5 @@
-#if !defined(SDLSTUFF_HPP)
-#define SDLSTUFF_HPP
+#if !defined(SDL_HPP)
+#define SDL_HPP
 
 #include "exception.hpp"
 
@@ -25,16 +25,25 @@ public:
 	}
 
 	static RendererPtr
-	makeRenderer(WindowPtr &window, int index, Uint32 flags)
+	makeRenderer(SDL_Window &window, int index, Uint32 flags)
 	{
-		SDL_Renderer *renderer = SDL_CreateRenderer(window.get(), -1, 0);
+		SDL_Renderer *renderer = SDL_CreateRenderer(&window, -1, 0);
 		if (!renderer)
 			throw Exception("SDL_CreateRenderer failed");
 		return RendererPtr(renderer, SDL_DestroyRenderer);
 	}
 
+	static TexturePtr
+	makeTexture(SDL_Renderer &renderer, SDL_Surface &surface)
+	{
+		SDL_Texture *texture = SDL_CreateTextureFromSurface(&renderer, &surface);
+		if (!texture)
+			throw Exception("SDL_CreateTextureFromSurface failed");
+		return TexturePtr(texture, SDL_DestroyTexture);
+	}
+
 };
 
-#endif // !defined(SDLSTUFF_HPP)
+#endif // !defined(SDL_HPP)
 
 // vim:set sw=4 ts=4 noet:

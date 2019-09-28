@@ -7,30 +7,22 @@
 #include <SDL_image.h>
 
 #include "sdl.hpp"
+#include "sdlimage.hpp"
 
 class
 TextureManager
 {
 public:
 	static Sdl::TexturePtr
-	makeTexture(Sdl::RendererPtr &renderer, const char *path)
+	makeTexture(SDL_Renderer &renderer, const char *path)
 	{
-		Sdl::SurfacePtr surface(IMG_Load(path), SDL_FreeSurface);
-		if (!surface)
-			throw Exception("IMG_Load failed"); // TODO add path info
-
-		// TODO move to Sdl::makeTexture()
-		Sdl::TexturePtr texture(SDL_CreateTextureFromSurface(renderer.get(), surface.get()), SDL_DestroyTexture);
-		if (!texture)
-			throw Exception("SDL_CreateTextureFromSurface failed");
-
-		return texture;
+		return Sdl::makeTexture(renderer, *SdlImage::load(path));
 	}
 
 	static void
-	draw(Sdl::RendererPtr &renderer, const Sdl::TexturePtr &texture, const SDL_Rect &src, const SDL_Rect &dest)
+	render(SDL_Renderer &renderer, SDL_Texture &texture, const SDL_Rect &src, const SDL_Rect &dest)
 	{
-		SDL_RenderCopy(renderer.get(), texture.get(), &src, &dest);
+		SDL_RenderCopy(&renderer, &texture, &src, &dest);
 	}
 
 };

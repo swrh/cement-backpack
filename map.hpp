@@ -11,13 +11,13 @@ class
 Map
 {
 private:
-	Sdl::RendererPtr renderer;
+	SDL_Renderer &renderer;
 	Sdl::TexturePtr grass, stone, water, wood;
 	Matrix<char> data;
-	SDL_Rect sourceRectangle, destinationRectangle;
+	SDL_Rect source, destination;
 
 public:
-	Map(const char *path, Sdl::RendererPtr &renderer_)
+	Map(const char *path, SDL_Renderer &renderer_)
 		: renderer(renderer_)
 		, grass(TextureManager::makeTexture(renderer, "assets/grass.png"))
 		, stone(TextureManager::makeTexture(renderer, "assets/stone.png"))
@@ -26,11 +26,11 @@ public:
 	{
 		load(path);
 
-		sourceRectangle.x = sourceRectangle.y = 0;
-		sourceRectangle.w = destinationRectangle.w = 32;
-		sourceRectangle.h = destinationRectangle.h = 32;
+		source.x = source.y = 0;
+		source.w = destination.w = 32;
+		source.h = destination.h = 32;
 
-		destinationRectangle.x = destinationRectangle.y = 0;
+		destination.x = destination.y = 0;
 	}
 
 	~Map()
@@ -68,22 +68,22 @@ public:
 	{
 		for (Uint32 x = 0; x < data.getWidth(); ++x) {
 			for (Uint32 y = 0; y < data.getHeight(); ++y) {
-				destinationRectangle.x = x * 32;
-				destinationRectangle.y = y * 32;
+				destination.x = x * 32;
+				destination.y = y * 32;
 
 				char c = data(x, y);
 				switch (c) {
 				case ' ':
-					TextureManager::draw(renderer, grass, sourceRectangle, destinationRectangle);
+					TextureManager::render(renderer, *grass, source, destination);
 					break;
 				case '~':
-					TextureManager::draw(renderer, water, sourceRectangle, destinationRectangle);
+					TextureManager::render(renderer, *water, source, destination);
 					break;
 				case '@':
-					TextureManager::draw(renderer, stone, sourceRectangle, destinationRectangle);
+					TextureManager::render(renderer, *stone, source, destination);
 					break;
 				case '#':
-					TextureManager::draw(renderer, wood, sourceRectangle, destinationRectangle);
+					TextureManager::render(renderer, *wood, source, destination);
 					break;
 				}
 			}
