@@ -1,6 +1,8 @@
 #if !defined(GAME_HPP)
 #define GAME_HPP
 
+#include <memory>
+
 #include <SDL.h>
 
 #include "collision.hpp"
@@ -17,7 +19,7 @@ private:
 	Sdl::WindowPtr window;
 	Sdl::RendererPtr renderer;
 
-	std::shared_ptr<Map> map;
+	std::unique_ptr<Map> map;
 
 	Manager manager;
 	Entity &player = manager.addEntity();
@@ -42,7 +44,7 @@ public:
 		renderer = Sdl::makeRenderer(*window, -1, 0);
 		SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
 
-		map = std::make_shared<Map>("assets/map.txt", *renderer);
+		map.reset(new Map("assets/map.txt", *renderer));
 
 		player.addComponent<TransformComponent>(Vector2D(0, 0), Vector2D(19, 34), 2);
 		player.addComponent<SpriteComponent>(*renderer, "assets/player/idle.png", 12);

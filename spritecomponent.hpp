@@ -20,11 +20,6 @@ private:
 	unsigned int frames = 1;
 
 public:
-	SpriteComponent(Entity *entity_, SDL_Renderer &renderer_)
-		: SpriteComponent(entity_, renderer_, nullptr)
-	{
-	}
-
 	SpriteComponent(Entity *entity_, SDL_Renderer &renderer_, const char *path, unsigned int frames_ = 1)
 		: Component(entity_)
 		, renderer(renderer_)
@@ -32,13 +27,10 @@ public:
 	{
 		frames = frames_;
 
-		if (!entity->hasComponent<TransformComponent>())
-			transform = &entity->addComponent<TransformComponent>();
-		else
-			transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->getComponent<TransformComponent>();
 
 		if (path) {
-			setTexture(path);
+			texture = TextureManager::makeTexture(renderer, path);
 
 			int w, h;
 			if (SDL_QueryTexture(texture.get(), nullptr, nullptr, &w, &h) != 0)
@@ -50,12 +42,6 @@ public:
 		source.x = source.y = 0;
 		source.w = transform->getDimensions().getX();
 		source.h = transform->getDimensions().getY();
-	}
-
-	void
-	setTexture(const char *path)
-	{
-		texture = TextureManager::makeTexture(renderer, path);
 	}
 
 	void

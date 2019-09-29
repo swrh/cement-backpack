@@ -21,10 +21,7 @@ public:
 		: Component(entity_)
 		, tag(tag_)
 	{
-		if (!entity->hasComponent<TransformComponent>())
-			transform = &entity->addComponent<TransformComponent>();
-		else
-			transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->getComponent<TransformComponent>();
 		update();
 	}
 

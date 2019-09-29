@@ -14,23 +14,6 @@ private:
 	Vector2D direction { 1, 1 };
 
 public:
-	TransformComponent(Entity *entity_)
-		: TransformComponent(entity_, Vector2D(0, 0))
-	{
-	}
-
-	TransformComponent(Entity *entity_, const Vector2D &pos)
-		: Component(entity_)
-		, position(pos)
-	{
-	}
-
-	TransformComponent(Entity *entity_, unsigned int sc)
-		: Component(entity_)
-		, scale(sc)
-	{
-	}
-
 	TransformComponent(Entity *entity_, const Vector2D &pos, const Vector2D &dim, unsigned int sc)
 		: Component(entity_)
 		, position(pos)

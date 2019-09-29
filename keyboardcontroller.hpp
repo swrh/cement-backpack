@@ -15,10 +15,7 @@ public:
 	KeyboardController(Entity *entity_, SDL_Event &event_)
 		: Component(entity_), event(event_)
 	{
-		if (!entity->hasComponent<TransformComponent>())
-			transform = &entity->addComponent<TransformComponent>();
-		else
-			transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->getComponent<TransformComponent>();
 	}
 
 	void

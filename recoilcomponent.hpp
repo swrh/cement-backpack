@@ -22,10 +22,7 @@ public:
 		, colliders(colliders_)
 		, collider(entity->getComponent<ColliderComponent>())
 	{
-		if (!entity->hasComponent<TransformComponent>())
-			transform = &entity->addComponent<TransformComponent>();
-		else
-			transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->getComponent<TransformComponent>();
 		update();
 	}
 
