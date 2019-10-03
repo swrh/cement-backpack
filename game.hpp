@@ -10,6 +10,7 @@
 #include "ecs.hpp"
 #include "exception.hpp"
 #include "map.hpp"
+#include "playerspritesheet.hpp"
 #include "sdl.hpp"
 
 class
@@ -20,6 +21,7 @@ private:
 	Sdl::RendererPtr renderer;
 
 	std::unique_ptr<Map> map;
+	std::unique_ptr<PlayerSpriteSheet> playerSpriteSheet;
 
 	Manager manager;
 	Entity &player = manager.addEntity();
@@ -45,14 +47,10 @@ public:
 		SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
 
 		map.reset(new Map("assets/map.txt", *renderer));
+		playerSpriteSheet.reset(new PlayerSpriteSheet(*renderer));
 
 		player.addComponent<TransformComponent>(Vector2D(0, 0), Vector2D(19, 34), 2);
-		player.addComponent<SpriteComponent>(*renderer, "assets/player/idle.png", 12);
-		//player.addComponent<SpriteComponent>(*renderer, "assets/player/running.png", 8);
-		//player.addComponent<SpriteComponent>(*renderer, "assets/player/falling.png", 2);
-		//player.addComponent<SpriteComponent>(*renderer, "assets/player/ledge-grabbing.png", 6);
-		//player.addComponent<SpriteComponent>(*renderer, "assets/player/jumping.png");
-		//player.addComponent<SpriteComponent>(*renderer, "assets/player/landing.png");
+		player.addComponent<SpriteSheetComponent>(*renderer, *playerSpriteSheet).selectSprites(playerSpriteSheet->getIdleSprites(), 100);
 		player.addComponent<KeyboardController>(event);
 		player.addComponent<ColliderComponent>("player");
 		player.addComponent<RecoilComponent>(colliders);
@@ -66,6 +64,7 @@ public:
 
 	~Game()
 	{
+		playerSpriteSheet.reset();
 		map.reset();
 
 		renderer.reset();

@@ -27,11 +27,14 @@ add_executable(cement-backpack
 	main.cpp
 	map.hpp
 	matrix.hpp
+	playerspritesheet.hpp
 	point.hpp
 	recoilcomponent.hpp
 	sdl.hpp
 	sdlimage.hpp
 	spritecomponent.hpp
+	spritesheetcomponent.hpp
+	spritesheet.hpp
 	texturemanager.hpp
 	transformcomponent.hpp
 	vector2d.hpp

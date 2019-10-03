@@ -3,8 +3,9 @@
 
 #include "collidercomponent.hpp"
 #include "keyboardcontroller.hpp"
-#include "spritecomponent.hpp"
 #include "recoilcomponent.hpp"
+#include "spritecomponent.hpp"
+#include "spritesheetcomponent.hpp"
 #include "transformcomponent.hpp"
 
 #endif // !defined(COMPONENTS_HPP)
