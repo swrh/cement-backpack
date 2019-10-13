@@ -4,15 +4,14 @@
 
 #include <SDL.h>
 
+#include <cb/sdl.hpp>
+
 int
 main(int argc, char *argv[])
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		std::cerr << "SDL_Init: " << SDL_GetError() << std::endl;
-		return EXIT_FAILURE;
-	}
+	using namespace cb;
 
-	SDL_Quit();
+	SdlInit init;
 
 	return EXIT_SUCCESS;
 }
