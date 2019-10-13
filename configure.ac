@@ -11,6 +11,7 @@ AM_INIT_AUTOMAKE([foreign])
 AC_PROG_CXX
 
 # Checks for libraries.
+PKG_CHECK_MODULES([SDL2], [sdl2 >= 2.0])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h])
