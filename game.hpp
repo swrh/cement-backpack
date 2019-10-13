@@ -11,10 +11,10 @@ class
 Game
 {
 private:
-	SdlInit sdlInit_;
+	sdl::Init sdlInit_;
 
-	Sdl::WindowPtr window_;
-	Sdl::RendererPtr renderer_;
+	sdl::WindowPtr window_;
+	sdl::RendererPtr renderer_;
 
 	SDL_Event event_;
 
@@ -25,9 +25,9 @@ public:
 		Uint32 flags = 0;
 		if (fullscreen)
 			flags |= SDL_WINDOW_FULLSCREEN;
-		window_ = Sdl::makeWindow(title, x, y, w, h, flags);
+		window_ = sdl::makeWindow(title, x, y, w, h, flags);
 
-		renderer_ = Sdl::makeRenderer(*window_, -1, 0);
+		renderer_ = sdl::makeRenderer(*window_, -1, 0);
 	}
 
 	~Game()
