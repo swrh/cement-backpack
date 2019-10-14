@@ -1,8 +1,6 @@
 #if !defined(GAME_HPP)
 #define GAME_HPP
 
-#include <memory>
-
 #include <SDL.h>
 
 #include "sdl.hpp"
