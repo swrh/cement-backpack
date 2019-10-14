@@ -1,17 +1,18 @@
 #if !defined(SDL_HPP)
 #define SDL_HPP
 
+#include <memory>
+
 #include <SDL.h>
 
 #include "exception.hpp"
-#include "memory.hpp"
 
 namespace sdl {
 
-typedef UniquePtr<SDL_Renderer, SDL_DestroyRenderer> RendererPtr;
-typedef UniquePtr<SDL_Surface, SDL_FreeSurface> SurfacePtr;
-typedef UniquePtr<SDL_Texture, SDL_DestroyTexture> TexturePtr;
-typedef UniquePtr<SDL_Window, SDL_DestroyWindow> WindowPtr;
+typedef std::unique_ptr<SDL_Renderer, std::integral_constant<std::decay_t<decltype(SDL_DestroyRenderer)>, SDL_DestroyRenderer>> RendererPtr;
+typedef std::unique_ptr<SDL_Surface, std::integral_constant<std::decay_t<decltype(SDL_FreeSurface)>, SDL_FreeSurface>> SurfacePtr;
+typedef std::unique_ptr<SDL_Texture, std::integral_constant<std::decay_t<decltype(SDL_DestroyTexture)>, SDL_DestroyTexture>> TexturePtr;
+typedef std::unique_ptr<SDL_Window, std::integral_constant<std::decay_t<decltype(SDL_DestroyWindow)>, SDL_DestroyWindow>> WindowPtr;
 
 class
 Exception
