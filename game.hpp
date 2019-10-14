@@ -7,6 +7,7 @@
 #include "entity.hpp"
 #include "manager.hpp"
 #include "sdl.hpp"
+#include "transformcomponent.hpp"
 
 class
 Game
@@ -26,6 +27,7 @@ public:
 		: window_(sdl::makeWindow(title, x, y, w, h, 0))
 		, renderer_(sdl::makeRenderer(*window_, -1, 0))
 	{
+		player_.addComponent<TransformComponent>(SDL_Point { 10, 10 });
 		player_.addComponent<BoxComponent>(*renderer_, SDL_Point { 20, 20 });
 	}
 

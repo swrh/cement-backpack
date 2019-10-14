@@ -5,18 +5,21 @@
 
 #include "component.hpp"
 #include "entity.hpp"
+#include "transformcomponent.hpp"
 
 class
 BoxComponent
 : public Component
 {
 private:
+	SDL_Point &position_;
 	SDL_Renderer &renderer_;
 	SDL_Point size_;
 
 public:
 	BoxComponent(Entity *entity, SDL_Renderer &renderer, SDL_Point &&size)
 		: Component(entity)
+		, position_(entity_->getComponent<TransformComponent>().getPosition())
 		, renderer_(renderer)
 		, size_(size)
 	{
@@ -31,8 +34,8 @@ public:
 	draw() override
 	{
 		SDL_Rect rectangle = {
-			0,
-			0,
+			position_.x,
+			position_.y,
 			size_.x,
 			size_.y,
 		};
