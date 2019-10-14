@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 
+#include "boxcomponent.hpp"
 #include "entity.hpp"
 #include "manager.hpp"
 #include "sdl.hpp"
@@ -29,6 +30,8 @@ public:
 		window_ = sdl::makeWindow(title, x, y, w, h, flags);
 
 		renderer_ = sdl::makeRenderer(*window_, -1, 0);
+
+		player_.addComponent<BoxComponent>(*renderer_, SDL_Point { 20, 20 });
 	}
 
 	~Game()
