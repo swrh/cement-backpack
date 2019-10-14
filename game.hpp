@@ -22,15 +22,10 @@ private:
 	Entity &player_ = manager_.addEntity();
 
 public:
-	Game(const char *title, std::size_t x, std::size_t y, std::size_t w, std::size_t h, bool fullscreen)
+	Game(const char *title, std::size_t x, std::size_t y, std::size_t w, std::size_t h)
+		: window_(sdl::makeWindow(title, x, y, w, h, 0))
+		, renderer_(sdl::makeRenderer(*window_, -1, 0))
 	{
-		Uint32 flags = 0;
-		if (fullscreen)
-			flags |= SDL_WINDOW_FULLSCREEN;
-		window_ = sdl::makeWindow(title, x, y, w, h, flags);
-
-		renderer_ = sdl::makeRenderer(*window_, -1, 0);
-
 		player_.addComponent<BoxComponent>(*renderer_, SDL_Point { 20, 20 });
 	}
 

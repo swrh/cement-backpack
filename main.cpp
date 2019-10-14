@@ -10,7 +10,7 @@ main(int argc, char *argv[])
 
 	const Uint32 MIN_FRAME_TIME = 16;
 
-	Game game("cb", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+	Game game("cb", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600);
 
 	while (game.isRunning()) {
 		Uint32 frameTime = SDL_GetTicks();
