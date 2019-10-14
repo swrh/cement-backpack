@@ -30,7 +30,6 @@ public:
 	{
 		return reason_.c_str();
 	}
-
 };
 
 #endif // !defined(EXCEPTION_HPP)

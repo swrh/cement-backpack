@@ -77,7 +77,6 @@ public:
 	{
 		return running_;
 	}
-
 };
 
 #endif // !defined(GAME_HPP)
