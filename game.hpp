@@ -3,6 +3,8 @@
 
 #include <SDL.h>
 
+#include "entity.hpp"
+#include "manager.hpp"
 #include "sdl.hpp"
 
 class
@@ -13,6 +15,10 @@ private:
 	sdl::RendererPtr renderer_;
 
 	SDL_Event event_;
+
+	Manager manager_;
+
+	Entity &player_ = manager_.addEntity();
 
 public:
 	Game(const char *title, std::size_t x, std::size_t y, std::size_t w, std::size_t h, bool fullscreen)
@@ -49,6 +55,8 @@ public:
 	void
 	update()
 	{
+		manager_.refresh();
+		manager_.update();
 	}
 
 	void
@@ -56,6 +64,8 @@ public:
 	{
 		SDL_SetRenderDrawColor(renderer_.get(), 0, 0, 0, 255);
 		SDL_RenderClear(renderer_.get());
+
+		manager_.draw();
 
 		SDL_RenderPresent(renderer_.get());
 	}
