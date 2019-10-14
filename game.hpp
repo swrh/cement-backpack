@@ -9,8 +9,6 @@ class
 Game
 {
 private:
-	sdl::Init sdlInit_;
-
 	sdl::WindowPtr window_;
 	sdl::RendererPtr renderer_;
 
@@ -18,7 +16,6 @@ private:
 
 public:
 	Game(const char *title, std::size_t x, std::size_t y, std::size_t w, std::size_t h, bool fullscreen)
-		: sdlInit_(SDL_INIT_EVERYTHING)
 	{
 		Uint32 flags = 0;
 		if (fullscreen)

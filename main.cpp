@@ -1,10 +1,13 @@
 #include <stdlib.h>
 
 #include "game.hpp"
+#include "sdl.hpp"
 
 int
-main(int argc, const char *argv[])
+main(int argc, char *argv[])
 {
+	sdl::Init init(SDL_INIT_EVERYTHING);
+
 	const Uint32 MIN_FRAME_TIME = 16;
 
 	Game game("cb", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
