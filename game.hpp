@@ -4,6 +4,7 @@
 #include <SDL.h>
 
 #include "boxcomponent.hpp"
+#include "drawcolorcomponent.hpp"
 #include "entity.hpp"
 #include "keyboardcomponent.hpp"
 #include "manager.hpp"
@@ -30,6 +31,7 @@ public:
 	{
 		player_.addComponent<TransformComponent>(SDL_Point { 10, 10 });
 		player_.addComponent<KeyboardComponent>(event_);
+		player_.addComponent<DrawColorComponent>(*renderer_, SDL_Color { 100, 200, 200, 255 });
 		player_.addComponent<BoxComponent>(*renderer_, SDL_Point { 20, 20 });
 	}
 

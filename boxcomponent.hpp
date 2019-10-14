@@ -39,7 +39,6 @@ public:
 			size_.x,
 			size_.y,
 		};
-		SDL_SetRenderDrawColor(&renderer_, 255, 255, 255, 255);
 		SDL_RenderDrawRect(&renderer_, &rectangle);
 	}
 };
