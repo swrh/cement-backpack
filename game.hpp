@@ -5,6 +5,7 @@
 
 #include "boxcomponent.hpp"
 #include "entity.hpp"
+#include "keyboardcomponent.hpp"
 #include "manager.hpp"
 #include "sdl.hpp"
 #include "transformcomponent.hpp"
@@ -13,10 +14,10 @@ class
 Game
 {
 private:
+	SDL_Event event_ = {};
+
 	sdl::WindowPtr window_;
 	sdl::RendererPtr renderer_;
-
-	SDL_Event event_;
 
 	Manager manager_;
 
@@ -28,6 +29,7 @@ public:
 		, renderer_(sdl::makeRenderer(*window_, -1, 0))
 	{
 		player_.addComponent<TransformComponent>(SDL_Point { 10, 10 });
+		player_.addComponent<KeyboardComponent>(event_);
 		player_.addComponent<BoxComponent>(*renderer_, SDL_Point { 20, 20 });
 	}
 
