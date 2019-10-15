@@ -9,17 +9,21 @@
 #include "keyboardcomponent.hpp"
 #include "manager.hpp"
 #include "sdl.hpp"
+#include "ticks.hpp"
 #include "transformcomponent.hpp"
 
 class
 Game
 {
 private:
+	constexpr static Uint32 MIN_FRAME_TIME = 16;
+
 	SDL_Event event_ = {};
 
 	sdl::WindowPtr window_;
 	sdl::RendererPtr renderer_;
 
+	Ticks ticks_;
 	Manager manager_;
 
 	Entity &player_ = manager_.addEntity();
@@ -59,6 +63,7 @@ public:
 	void
 	update()
 	{
+		ticks_.update();
 		manager_.refresh();
 		manager_.update();
 	}
@@ -68,10 +73,16 @@ public:
 	{
 		SDL_SetRenderDrawColor(renderer_.get(), 0, 0, 0, 255);
 		SDL_RenderClear(renderer_.get());
-
 		manager_.draw();
-
 		SDL_RenderPresent(renderer_.get());
+	}
+
+	void
+	delay()
+	{
+		Uint32 diff = ticks_.now() - ticks_.current();
+		if (diff < MIN_FRAME_TIME)
+			SDL_Delay(MIN_FRAME_TIME - diff);
 	}
 
 private:
