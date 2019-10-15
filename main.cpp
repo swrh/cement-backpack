@@ -2,6 +2,7 @@
 
 #include "game.hpp"
 #include "sdl.hpp"
+#include "ticks.hpp"
 
 int
 main(int argc, char *argv[])
@@ -12,8 +13,10 @@ main(int argc, char *argv[])
 
 	Game game("cb", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600);
 
+	Ticks ticks;
+
 	while (game.isRunning()) {
-		Uint32 frameTime = SDL_GetTicks();
+		Uint32 current = ticks.update();
 
 		bool hadEvent = game.handleEvents();
 		game.update();
@@ -22,9 +25,9 @@ main(int argc, char *argv[])
 
 		game.draw();
 
-		frameTime = SDL_GetTicks() - frameTime;
-		if (frameTime < MIN_FRAME_TIME)
-			SDL_Delay(MIN_FRAME_TIME - frameTime);
+		Uint32 diff = ticks.now() - current;
+		if (diff < MIN_FRAME_TIME)
+			SDL_Delay(MIN_FRAME_TIME - diff);
 	}
 
 	return EXIT_SUCCESS;
