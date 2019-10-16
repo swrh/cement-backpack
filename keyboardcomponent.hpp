@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 
+#include "point.hpp"
 #include "transformcomponent.hpp"
 
 class

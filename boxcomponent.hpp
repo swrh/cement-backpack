@@ -5,6 +5,7 @@
 
 #include "component.hpp"
 #include "entity.hpp"
+#include "point.hpp"
 #include "transformcomponent.hpp"
 
 class
@@ -12,7 +13,7 @@ BoxComponent
 : public Component
 {
 private:
-	SDL_Point &position_;
+	const Point<double> &position_;
 	SDL_Renderer &renderer_;
 	SDL_Point size_;
 
@@ -34,8 +35,8 @@ public:
 	draw() override
 	{
 		SDL_Rect rectangle = {
-			position_.x,
-			position_.y,
+			static_cast<int>(position_.x),
+			static_cast<int>(position_.y),
 			size_.x,
 			size_.y,
 		};
