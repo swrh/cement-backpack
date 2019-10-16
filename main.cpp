@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <stdlib.h>
 
 #include "game.hpp"
@@ -15,9 +16,10 @@ main(int argc, char *argv[])
 		if (!game.isRunning())
 			break;
 		game.update();
+		if (hadEvent)
+			continue;
 		game.draw();
-		if (!hadEvent)
-			game.delay();
+		game.sleep();
 	}
 
 	return EXIT_SUCCESS;

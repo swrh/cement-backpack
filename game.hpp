@@ -50,7 +50,13 @@ public:
 	bool
 	handleEvents()
 	{
-		bool hadEvent = !!SDL_PollEvent(&event_);
+		bool hadEvent;
+		for (;;) {
+			hadEvent = !!SDL_PollEvent(&event_);
+			// Ignore all key up/down repeat events
+			if (!hadEvent || (event_.type != SDL_KEYDOWN && event_.type != SDL_KEYUP) || (event_.key.repeat == 0))
+				break;
+		}
 		if (hadEvent) {
 			if (event_.type == SDL_QUIT) {
 				running_ = false;
@@ -79,11 +85,11 @@ public:
 	}
 
 	void
-	delay()
+	sleep()
 	{
 		Uint32 diff = ticks_.now() - ticks_.current();
 		if (diff < MIN_FRAME_TIME)
-			SDL_Delay(MIN_FRAME_TIME - diff);
+			SDL_WaitEventTimeout(nullptr, MIN_FRAME_TIME - diff);
 	}
 
 private:

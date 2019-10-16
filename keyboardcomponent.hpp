@@ -25,7 +25,7 @@ public:
 	void
 	update() override
 	{
-		if (event_.type == SDL_KEYDOWN && event_.key.repeat == 0) {
+		if (event_.type == SDL_KEYDOWN) {
 			switch (event_.key.keysym.sym) {
 			case SDLK_w:
 				--velocity_.y;
@@ -40,7 +40,7 @@ public:
 				++velocity_.x;
 				break;
 			}
-		} else if (event_.type == SDL_KEYUP && event_.key.repeat == 0) {
+		} else if (event_.type == SDL_KEYUP) {
 			switch (event_.key.keysym.sym) {
 			case SDLK_w:
 				++velocity_.y;
