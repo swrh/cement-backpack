@@ -34,10 +34,8 @@ public:
 	void
 	update() override
 	{
-		position_ = SDL_Point {
-			position_.x + velocity_.x,
-			position_.y + velocity_.y,
-		};
+		position_.x += velocity_.x;
+		position_.y += velocity_.y;
 	}
 
 	void
