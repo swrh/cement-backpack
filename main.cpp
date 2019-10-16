@@ -6,7 +6,7 @@
 int
 main(int argc, char *argv[])
 {
-	sdl::Init init(SDL_INIT_EVERYTHING);
+	sdl::Init init(SDL_INIT_VIDEO);
 
 	Game game("cb", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600);
 
