@@ -40,7 +40,7 @@ public:
 	void
 	update() override
 	{
-		double speed = speed_ * ticks_.diff() / 1000;
+		double speed = speed_ * ticks_.delta() / 1000;
 		position_.x += speed * velocity_.x;
 		position_.y += speed * velocity_.y;
 	}

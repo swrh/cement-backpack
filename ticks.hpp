@@ -36,7 +36,7 @@ public:
 	}
 
 	Uint32
-	diff() const
+	delta() const
 	{
 		return current_ - last_;
 	}

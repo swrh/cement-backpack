@@ -87,9 +87,9 @@ public:
 	void
 	sleep()
 	{
-		Uint32 diff = ticks_.now() - ticks_.current();
-		if (diff < MIN_FRAME_TIME)
-			SDL_WaitEventTimeout(nullptr, MIN_FRAME_TIME - diff);
+		Uint32 delta = ticks_.now() - ticks_.current();
+		if (delta < MIN_FRAME_TIME)
+			SDL_WaitEventTimeout(nullptr, MIN_FRAME_TIME - delta);
 	}
 
 private:
