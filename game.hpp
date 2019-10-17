@@ -9,6 +9,7 @@
 #include "keyboardcomponent.hpp"
 #include "manager.hpp"
 #include "point.hpp"
+#include "rectanglecomponent.hpp"
 #include "sdl.hpp"
 #include "ticks.hpp"
 #include "transformcomponent.hpp"
@@ -28,6 +29,7 @@ private:
 	Manager manager_;
 
 	Entity &player_ = manager_.addEntity();
+	Entity &ground_ = manager_.addEntity();
 
 public:
 	Game(const char *title, std::size_t x, std::size_t y, std::size_t w, std::size_t h)
@@ -38,6 +40,9 @@ public:
 		player_.addComponent<KeyboardComponent>(event_);
 		player_.addComponent<DrawColorComponent>(*renderer_, SDL_Color { 100, 200, 200, 255 });
 		player_.addComponent<BoxComponent>(*renderer_, SDL_Point { 20, 20 });
+
+		ground_.addComponent<DrawColorComponent>(*renderer_, SDL_Color { 200, 100, 200, 255 });
+		ground_.addComponent<RectangleComponent>(*renderer_, SDL_Rect { 0, 500, 800, 20 });
 	}
 
 	~Game()
