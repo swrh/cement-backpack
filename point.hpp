@@ -11,40 +11,6 @@ Point
 
 	value_type x, y;
 
-	Point()
-		: Point(0, 0)
-	{
-	}
-
-	Point(value_type x, value_type y)
-		: x(x), y(y)
-	{
-	}
-
-	value_type
-	getX() const
-	{
-		return x;
-	}
-
-	value_type
-	getY() const
-	{
-		return y;
-	}
-
-	void
-	setX(value_type x_)
-	{
-		x = x_;
-	}
-
-	void
-	setY(value_type y_)
-	{
-		y = y_;
-	}
-
 	bool
 	operator==(const Point<T> &other) const
 	{
@@ -213,7 +179,6 @@ Point
 		return p;
 	}
 
-public:
 	friend std::ostream &
 	operator<<(std::ostream &stream, const Point<T> &p)
 	{
