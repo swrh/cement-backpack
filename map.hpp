@@ -6,31 +6,32 @@
 
 #include "matrix.hpp"
 #include "sdl.hpp"
+#include "texturemanager.hpp"
 
 class
 Map
 {
 private:
-	SDL_Renderer &renderer;
-	Sdl::TexturePtr grass, stone, water, wood;
+	SDL_Renderer &renderer_;
+	sdl::TexturePtr grass_, stone_, water_, wood_;
 	Matrix<char> data;
-	SDL_Rect source, destination;
+	SDL_Rect source_, destination_;
 
 public:
-	Map(const char *path, SDL_Renderer &renderer_)
-		: renderer(renderer_)
-		, grass(TextureManager::makeTexture(renderer, "assets/grass.png"))
-		, stone(TextureManager::makeTexture(renderer, "assets/stone.png"))
-		, water(TextureManager::makeTexture(renderer, "assets/water.png"))
-		, wood(TextureManager::makeTexture(renderer, "assets/wood.png"))
+	Map(const char *path, SDL_Renderer &renderer)
+		: renderer_(renderer)
+		, grass_(TextureManager::makeTexture(renderer_, "assets/grass.png"))
+		, stone_(TextureManager::makeTexture(renderer_, "assets/stone.png"))
+		, water_(TextureManager::makeTexture(renderer_, "assets/water.png"))
+		, wood_(TextureManager::makeTexture(renderer_, "assets/wood.png"))
 	{
 		load(path);
 
-		source.x = source.y = 0;
-		source.w = destination.w = 32;
-		source.h = destination.h = 32;
+		source_.x = source_.y = 0;
+		source_.w = destination_.w = 32;
+		source_.h = destination_.h = 32;
 
-		destination.x = destination.y = 0;
+		destination_.x = destination_.y = 0;
 	}
 
 	~Map()
@@ -68,22 +69,22 @@ public:
 	{
 		for (Uint32 x = 0; x < data.getWidth(); ++x) {
 			for (Uint32 y = 0; y < data.getHeight(); ++y) {
-				destination.x = x * 32;
-				destination.y = y * 32;
+				destination_.x = x * 32;
+				destination_.y = y * 32;
 
 				char c = data(x, y);
 				switch (c) {
 				case ' ':
-					TextureManager::render(renderer, *grass, source, destination);
+					TextureManager::render(renderer_, *grass_, source_, destination_);
 					break;
 				case '~':
-					TextureManager::render(renderer, *water, source, destination);
+					TextureManager::render(renderer_, *water_, source_, destination_);
 					break;
 				case '@':
-					TextureManager::render(renderer, *stone, source, destination);
+					TextureManager::render(renderer_, *stone_, source_, destination_);
 					break;
 				case '#':
-					TextureManager::render(renderer, *wood, source, destination);
+					TextureManager::render(renderer_, *wood_, source_, destination_);
 					break;
 				}
 			}

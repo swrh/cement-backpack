@@ -13,8 +13,8 @@ SpriteSheet
 {
 protected:
 	SDL_Renderer &renderer;
-	Sdl::TexturePtr texture;
-	Vector2D textureSize;
+	sdl::TexturePtr texture;
+	Point<unsigned int> textureSize;
 	const std::vector<SDL_Rect> &coordinates;
 
 	SpriteSheet(SDL_Renderer &renderer_, const char *path, std::vector<SDL_Rect> &coordinates_)
@@ -29,7 +29,7 @@ protected:
 		if (SDL_QueryTexture(texture.get(), nullptr, nullptr, &w, &h) != 0)
 			throw Exception("SDL_QueryTexture failed");
 
-		textureSize = Vector2D(w, h);
+		textureSize = Point<unsigned int> { static_cast<unsigned int>(w), static_cast<unsigned int>(h) };
 	}
 
 public:

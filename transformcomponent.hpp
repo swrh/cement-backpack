@@ -1,7 +1,11 @@
 #if !defined(TRANSFORMCOMPONENT_HPP)
 #define TRANSFORMCOMPONENT_HPP
 
-#include "ecs.hpp"
+#include <SDL.h>
+
+#include "component.hpp"
+#include "point.hpp"
+#include "ticks.hpp"
 #include "vector2d.hpp"
 
 class
@@ -9,77 +13,71 @@ TransformComponent
 : public Component
 {
 private:
-	Vector2D position, velocity, dimensions = { 32, 32 };
-	unsigned int scale = 1, speed = 1;
-	Vector2D direction { 1, 1 };
+	const Ticks &ticks_;
+	Point<double> position_ = {};
+	SDL_Point velocity_ = {}, dimensions_ = {};
+	unsigned int scale_ = 1;
+	double speed_ = 100; // pixels per second
+	SDL_Point direction_ { 1, 1 };
 
 public:
-	TransformComponent(Entity *entity_, const Vector2D &pos, const Vector2D &dim, unsigned int sc)
-		: Component(entity_)
-		, position(pos)
-		, dimensions(dim)
-		, scale(sc)
+	TransformComponent(Entity *entity, const Ticks &ticks, Point<double> &&position, SDL_Point &&dimensions, unsigned int scale)
+		: Component(entity)
+		, ticks_(ticks)
+		, position_(position)
+		, dimensions_(dimensions)
+		, scale_(scale)
 	{
 	}
 
-	const Vector2D &
-	getPosition() const
-	{
-		return position;
-	}
-
-	Vector2D &
+	Point<double> &
 	getPosition()
 	{
-		return position;
+		return position_;
 	}
 
-	const Vector2D &
-	getVelocity() const
-	{
-		return velocity;
-	}
-
-	Vector2D &
+	SDL_Point &
 	getVelocity()
 	{
-		return velocity;
+		return velocity_;
 	}
 
-	const Vector2D &
-	getDimensions() const
-	{
-		return dimensions;
-	}
-
-	Vector2D &
+	SDL_Point &
 	getDimensions()
 	{
-		return dimensions;
+		return dimensions_;
 	}
 
 	unsigned int
 	getScale() const
 	{
-		return scale;
+		return scale_;
 	}
 
-	Vector2D &
+	SDL_Point &
 	getDirection()
 	{
-		return direction;
+		return direction_;
 	}
 
-	Vector2D
+	Point<double>
 	predictPosition() const
 	{
-		return position + (velocity * speed);
+		// FIXME
+		double speed = speed_ * ticks_.delta() / 1000;
+		return {
+			position_.x + (speed * velocity_.x),
+			position_.y + (speed * velocity_.y),
+		};
 	}
 
 	void
 	update() override
 	{
-		position += velocity * speed * direction;
+		// FIXME
+		double speed = speed_ * ticks_.delta() / 1000;
+		position_.x += speed * velocity_.x * direction_.x;
+		position_.y += speed * velocity_.y * direction_.y;
 	}
 
 	void

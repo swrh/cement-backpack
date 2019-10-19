@@ -1,7 +1,7 @@
 #if !defined(SPRITECOMPONENT_HPP)
 #define SPRITECOMPONENT_HPP
 
-#include "components.hpp"
+#include "component.hpp"
 #include "sdl.hpp"
 #include "texturemanager.hpp"
 
@@ -10,40 +10,40 @@ SpriteComponent
 : public Component
 {
 private:
-	SDL_Renderer &renderer;
-	Sdl::TexturePtr texture;
+	SDL_Renderer &renderer_;
+	sdl::TexturePtr texture_;
 
-	TransformComponent *transform = nullptr;
+	TransformComponent *transform_ = nullptr;
 
-	SDL_Rect source, destination;
+	SDL_Rect source_, destination_;
 
 public:
-	SpriteComponent(Entity *entity_, SDL_Renderer &renderer_, const char *path)
-		: Component(entity_)
-		, renderer(renderer_)
+	SpriteComponent(Entity *entity, SDL_Renderer &renderer, const char *path)
+		: Component(entity)
+		, renderer_(renderer)
 	{
-		transform = &entity->getComponent<TransformComponent>();
+		transform_ = &entity->getComponent<TransformComponent>();
 
-		texture = TextureManager::makeTexture(renderer, path);
+		texture_ = TextureManager::makeTexture(renderer_, path);
 
-		source.x = source.y = 0;
-		source.w = transform->getDimensions().getX();
-		source.h = transform->getDimensions().getY();
+		source_.x = source_.y = 0;
+		source_.w = transform_->getDimensions().x;
+		source_.h = transform_->getDimensions().y;
 	}
 
 	void
 	update() override
 	{
-		destination.x = transform->getPosition().getX();
-		destination.y = transform->getPosition().getY();
-		destination.w = transform->getDimensions().getX() * transform->getScale();
-		destination.h = transform->getDimensions().getY() * transform->getScale();
+		destination_.x = transform_->getPosition().x;
+		destination_.y = transform_->getPosition().y;
+		destination_.w = transform_->getDimensions().x * transform_->getScale();
+		destination_.h = transform_->getDimensions().y * transform_->getScale();
 	}
 
 	void
 	draw() override
 	{
-		TextureManager::render(renderer, *texture, source, destination);
+		TextureManager::render(renderer_, *texture_, source_, destination_);
 	}
 
 };

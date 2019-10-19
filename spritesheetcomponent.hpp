@@ -1,7 +1,7 @@
 #if !defined(SPRITESHEETCOMPONENT_HPP)
 #define SPRITESHEETCOMPONENT_HPP
 
-#include "components.hpp"
+#include "transformcomponent.hpp"
 #include "spritesheet.hpp"
 
 class
@@ -9,60 +9,60 @@ SpriteSheetComponent
 : public Component
 {
 private:
-	SDL_Renderer &renderer;
-	SpriteSheet &sheet;
-	const std::vector<std::size_t> *selectedSprites = nullptr;
-	std::size_t currentSprite = 0, baseTick = 0, ticksInterval = 0;
+	SDL_Renderer &renderer_;
+	SpriteSheet &sheet_;
+	const std::vector<std::size_t> *selectedSprites_ = nullptr;
+	std::size_t currentSprite_ = 0, baseTick_ = 0, ticksInterval_ = 0;
 
-	TransformComponent *transform = nullptr;
+	TransformComponent *transform_ = nullptr;
 
-	SDL_Rect destination = {};
+	SDL_Rect destination_ = {};
 
 public:
-	SpriteSheetComponent(Entity *entity_, SDL_Renderer &renderer_, SpriteSheet &sheet_)
-		: Component(entity_)
-		, renderer(renderer_)
-		, sheet(sheet_)
-		, transform(&entity->getComponent<TransformComponent>())
+	SpriteSheetComponent(Entity *entity, SDL_Renderer &renderer, SpriteSheet &sheet)
+		: Component(entity)
+		, renderer_(renderer)
+		, sheet_(sheet)
+		, transform_(&entity_->getComponent<TransformComponent>())
 	{
 	}
 
 	void
-	selectSprites(const std::vector<std::size_t> &selectedSprites_, Uint32 ticksInterval_)
+	selectSprites(const std::vector<std::size_t> &selectedSprites, Uint32 ticksInterval)
 	{
-		selectedSprites = &selectedSprites_;
-		baseTick = static_cast<std::size_t>(SDL_GetTicks());
-		ticksInterval = ticksInterval_;
+		selectedSprites_ = &selectedSprites;
+		baseTick_ = static_cast<std::size_t>(SDL_GetTicks());
+		ticksInterval_ = ticksInterval;
 	}
 
 	void
 	update() override
 	{
-		if (!selectedSprites)
-			throw Exception("SpriteSheetComponent::update: null selectedSprites");
+		if (!selectedSprites_)
+			throw Exception("SpriteSheetComponent::update: null selectedSprites_");
 
-		currentSprite = ((static_cast<std::size_t>(SDL_GetTicks()) - baseTick) / ticksInterval) % selectedSprites->size();
-		currentSprite = selectedSprites->operator[](currentSprite);
+		currentSprite_ = ((static_cast<std::size_t>(SDL_GetTicks()) - baseTick_) / ticksInterval_) % selectedSprites_->size();
+		currentSprite_ = selectedSprites_->operator[](currentSprite_);
 
-		const SDL_Rect &rectangle = sheet.getRectangle(currentSprite);
+		const SDL_Rect &rectangle = sheet_.getRectangle(currentSprite_);
 
-		transform->getDimensions() = Vector2D(rectangle.w, rectangle.h);
+		transform_->getDimensions() = SDL_Point { rectangle.w, rectangle.h };
 
-		destination = {
-			static_cast<int>(transform->getPosition().getX()),
-			static_cast<int>(transform->getPosition().getY()),
-			static_cast<int>(transform->getDimensions().getX() * transform->getScale()),
-			static_cast<int>(transform->getDimensions().getY() * transform->getScale()),
+		destination_ = {
+			static_cast<int>(transform_->getPosition().x),
+			static_cast<int>(transform_->getPosition().y),
+			static_cast<int>(transform_->getDimensions().x * transform_->getScale()),
+			static_cast<int>(transform_->getDimensions().y * transform_->getScale()),
 		};
 	}
 
 	void
 	draw() override
 	{
-		if (!selectedSprites)
-			throw Exception("SpriteSheetComponent::update: null selectedSprites");
+		if (!selectedSprites_)
+			throw Exception("SpriteSheetComponent::update: null selectedSprites_");
 
-		sheet.draw(currentSprite, destination);
+		sheet_.draw(currentSprite_, destination_);
 	}
 
 };

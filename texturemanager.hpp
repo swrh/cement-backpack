@@ -13,10 +13,10 @@ class
 TextureManager
 {
 public:
-	static Sdl::TexturePtr
+	static sdl::TexturePtr
 	makeTexture(SDL_Renderer &renderer, const char *path)
 	{
-		return Sdl::makeTexture(renderer, *SdlImage::load(path));
+		return sdl::makeTexture(renderer, *sdl::image::load(path));
 	}
 
 	static void
@@ -24,7 +24,6 @@ public:
 	{
 		SDL_RenderCopy(&renderer, &texture, &src, &dest);
 	}
-
 };
 
 #endif // !defined(TEXTUREMANAGER_HPP)

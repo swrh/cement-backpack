@@ -2,24 +2,29 @@
 #define EXCEPTION_HPP
 
 #include <stdexcept>
+#include <string>
 
 class
 Exception
 : public std::exception
 {
 private:
-	const char *reason;
+	const std::string reason_;
 public:
-	Exception(const char *reason_)
-		: reason(reason_)
+	Exception(const std::string &reason)
+		: Exception(std::string(reason))
+	{
+	}
+
+	Exception(std::string &&reason)
+		: reason_(reason)
 	{
 	}
 
 	virtual const char *what() const noexcept
 	{
-		return reason;
+		return reason_.c_str();
 	}
-
 };
 
 #endif // !defined(EXCEPTION_HPP)

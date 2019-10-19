@@ -1,27 +1,25 @@
+#include <unistd.h>
 #include <stdlib.h>
 
 #include "game.hpp"
+#include "sdl.hpp"
 
 int
-main(int argc, const char *argv[])
+main(int argc, char *argv[])
 {
-	const Uint32 MIN_FRAME_TIME = 16;
+	sdl::Init init(SDL_INIT_VIDEO);
 
-	Game game("Cement Backpack", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+	Game game("Cement Backpack", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600);
 
-	while (game.running()) {
-		Uint32 frameTime = SDL_GetTicks();
-
+	for (;;) {
 		bool hadEvent = game.handleEvents();
+		if (!game.isRunning())
+			break;
 		game.update();
 		if (hadEvent)
 			continue;
-
 		game.draw();
-
-		frameTime = SDL_GetTicks() - frameTime;
-		if (frameTime < MIN_FRAME_TIME)
-			SDL_Delay(MIN_FRAME_TIME - frameTime);
+		game.sleep();
 	}
 
 	return EXIT_SUCCESS;
