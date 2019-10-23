@@ -31,7 +31,7 @@ public:
 		SDL_Rect prediction = collider_.predictCollider();
 		for (const ColliderComponent *cc : colliders_) {
 			if (Collision::AABB(prediction, cc->getCollider())) {
-			transform_->getDirection() = SDL_Point { 0, 0 };
+				transform_->getDirection() = SDL_Point { 0, 0 };
 				return;
 			}
 		}
