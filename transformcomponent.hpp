@@ -6,7 +6,6 @@
 #include "component.hpp"
 #include "point.hpp"
 #include "ticks.hpp"
-#include "vector2d.hpp"
 
 class
 TransformComponent
